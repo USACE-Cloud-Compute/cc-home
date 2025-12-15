@@ -1,0 +1,8 @@
+{
+    "plugin_definition": "HELLO-WORLD-PLUGIN",
+    "inputs": {
+        "payload_attributes": {
+            "test": "hello world"
+        }
+    }
+}

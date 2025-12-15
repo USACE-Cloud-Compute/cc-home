@@ -1,0 +1,4 @@
+{
+    "plugin_definition": "HELLO-WORLD-PLUGIN",
+    "depends-on": ["hello-world-manifest1.json"]
+}

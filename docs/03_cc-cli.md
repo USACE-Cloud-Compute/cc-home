@@ -100,7 +100,7 @@ cccli --envFile=.env --computeFile=compute.json terminate COMPUTE 068ff6fe-d8d9-
 
 **Next Step**
 
-At this point there are two options for what to do next:
+At this point there are two options for what to do next, It's generally recommended to go through the Hello World tutorial prior to moving on to the advanced topics.
 
 - [Hello World Tutorial](../tutorials/hello-world)
 - [Advanced CC Topics (plugin registration, manifest authoring, etc)](./04_advanced-topics.md)

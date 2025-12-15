@@ -1,0 +1,30 @@
+{
+  "name": "Hello World Test",
+  "provider": {
+    "type": "docker",
+    "concurrency": 2,
+    "queue": "docker-local"
+  },
+  "plugins": [
+    "hello-world-plugin.json"
+  ],
+  "event": {
+    "compute-manifests": [
+      "hello-world-manifest1.json",
+      "hello-world-manifest2.json"
+    ]
+  },
+  "generator": {
+    "type": "array",
+    "start": 1,
+    "end": 3,
+    "perEventLoop": [
+      {
+        "CC_MODEL_PREFIX": "bardwell-creek"
+      },
+      {
+        "CC_MODEL_PREFIX": "tuttle-creek"
+      }
+    ]
+  }
+}

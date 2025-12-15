@@ -1,0 +1,9 @@
+{
+    "name": "HELLO-WORLD-PLUGIN",
+    "image_and_tag": "ghcr.io/usace-cloud-compute/hello-world-plugin:latest",
+    "description": "Cloud Compute Hello World",
+    "compute_environment": {
+        "vcpu": "1",
+        "memory": "256"
+    }
+}

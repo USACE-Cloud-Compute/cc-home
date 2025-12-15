@@ -1,0 +1,12 @@
+{
+    "name": "Hello World Test",
+    "provider":{
+        "type":"docker",
+        "concurrency":1,
+        "queue": "docker-local"
+    },
+    "plugins": ["hello-world-plugin.json"],
+    "event":{
+        "compute-manifests":["hello-world-manifest1.json","hello-world-manifest2.json"]
+    }
+}
