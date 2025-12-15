@@ -11,7 +11,7 @@ While we try to keep the topics in this documentation as approachable as possibl
 
 ## Outline
 
-[CloudCompute for Dummies](./01_cc-for-dummies.md) - Introduction to the CloudCompute ecosystem
+**Start Here** [CloudCompute for Dummies](./01_cc-for-dummies.md) - Introduction to the CloudCompute ecosystem
 
 [Setting up Local Docker](./02_setting-up-local-docker.md) - How to configure a local docker compute environment for CC.
 
