@@ -98,4 +98,9 @@ cccli --envFile=.env --computeFile=compute.json log
 cccli --envFile=.env --computeFile=compute.json terminate COMPUTE 068ff6fe-d8d9-48af-b897-b937a7e14dae "testing the things"
 ```
 
-[**Next Step - Plugin Registration**](./04_plugin-registration.md)
+**Next Step**
+
+At this point there are two options for what to do next:
+
+- [Hello World Tutorial](../tutorials/hello-world)
+- [Advanced CC Topics (plugin registration, manifest authoring, etc)](./04_advanced-topics.md)

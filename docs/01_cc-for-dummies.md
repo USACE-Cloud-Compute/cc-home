@@ -92,4 +92,4 @@ To make things even more interesting, compute files contain the option of what i
 
 Once each of the pieces are in place, we use the [CC CLI](./08_cc-cli.md) to read the configuration files and send the compute to the compute environment.
 
-[**Next Step - Set up Local Docker Compute Environment**](./02_setting-up-local-docker.md)
+[**Next Step - Set up Local Docker Compute Environment**](./02a_setting-up-local-docker.md)

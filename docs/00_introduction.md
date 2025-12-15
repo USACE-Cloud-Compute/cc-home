@@ -13,8 +13,8 @@ While we try to keep the topics in this documentation as approachable as possibl
 
 **Start Here** [CloudCompute for Dummies](./01_cc-for-dummies.md) - Introduction to the CloudCompute ecosystem
 
-[Setting up Local Docker](./02_setting-up-local-docker.md) - How to configure a local docker compute environment for CC.
+[Setting up Local Docker](./02a_setting-up-local-docker.md) - How to configure a local docker compute environment for CC.
 
-[Setting up AWS](./03_setting-up-aws.md) - How to configure an AWS account for CC.
+[Setting up AWS](./02b_setting-up-aws.md) - How to configure an AWS account for CC.
 
 [Hello World Tutorial](./03a_hello-world.md) - Run the hello world plugin locally to get a feel for how CC orchestrates jobs.
