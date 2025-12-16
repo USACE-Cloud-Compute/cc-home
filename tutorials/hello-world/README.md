@@ -20,7 +20,7 @@ CC_AWS_ENDPOINT=http://localhost:9000
 
 ## Hello World Plugin
 
-We've developed a `hello-world-plugin` that simply prints any environment variables beginning with `CC_` to illustrate how CC uses compute manifests to orchestrate event runs and how it modifies the environment based on the compute configuration. You can see the plugin manifest in `tutorials/tutorials/hello-world/hello-world-plugin.json`:
+We've developed a `hello-world-plugin` that simply prints any environment variables beginning with `CC_` to illustrate how CC uses compute manifests to orchestrate event runs and how it modifies the environment based on the compute configuration. You can see the plugin manifest in `hello-world-plugin.json`:
 
 ```json
 {
@@ -38,7 +38,7 @@ A plugin manifest points CC to the image it should pull and use for the run as w
 
 ## Basic Compute
 
-The simplest type of compute uses a built in list event generator to create a single event instance and run it. Let's look at the `hello-world/compute.json` compute manifest and see what it's doing:
+The simplest type of compute uses a built in list event generator to create a single event instance and run it. Let's look at the `compute.json` compute manifest and see what it's doing:
 
 ```json
 {
@@ -99,7 +99,7 @@ Thinking back to our event definition in the compute manifest, we're running one
 
 The first block of log lines starting with `JOB:` are the output from running the plugin specified in `hello-world-manifest1.json` and you can tell that job has to finish before the second job can start and print it's environment.
 
-Notice that the first job has a `CC_PAYLOAD_ID` showing a real GUID while the second is an empty GUID. This tells us that we wrote a payload to the CC store for the first run, but not the second. If we look at the `hello-world-manifest1.json` file, we'll find that we've added an `inputs` block:
+Notice that the first job has a `CC_PAYLOAD_ID` showing a real GUID while the second is an empty GUID. This tells us that we wrote a payload to the CC store for the first run, but not the second. If we look at the `hello-world-manifest1.json` file, we'll find that there's an added `inputs` block:
 
 ```json
 "inputs": {
@@ -131,7 +131,7 @@ Let's make this a little more complicated. As we've covered before, event genera
 
 ### Array Event Generator
 
-If we take a look at `hello-world/compute-array.json`, we can see it's the same content as `compute.json` but with an additional key describing our array event generator.
+If we take a look at `compute-array.json`, we can see it's the same content as `compute.json` but with an additional key describing our array event generator.
 
 ```json
 "generator": {
@@ -153,7 +153,7 @@ If you look through the logs, you should be able to discern a total of 6 jobs be
 
 Let's say we need more than just a start and end event number, we need the ability to pass in `CC_EVENT_IDENTIFIER`s that are names of something, or a discrete set of numeric event IDs. That's where the stream event generator comes in.
 
-If we look at the generator block from the `hello-world/compute-stream.json` file, we'll see that the stream event generator reads event ID's from a file, in this case a `.csv` file, but you can use any delimiter that you like.
+If we look at the generator block from the `compute-stream.json` file, we'll see that the stream event generator reads event ID's from a file, in this case a `.csv` file, but you can use any delimiter that you like.
 
 ```json
 "generator": {
@@ -183,7 +183,7 @@ Let's say we have a list of event IDs that map to some significant information, 
 
 Again these are comma delimited, but they wouldn't have to be.
 
-Running the `cccli` with the `hello-world/compute-stream2.json` compute manifest shows us what that looks like.
+Running the `cccli` with the `compute-stream2.json` compute manifest shows us what that looks like.
 
 ```sh
 cccli --envFile=.env-local --computeFile=compute-stream2.json run
@@ -193,7 +193,7 @@ cccli --envFile=.env-local --computeFile=compute-stream2.json run
 
 We can add an additional inner loop over sets of variables by writing a per-event loop. This allows you to generate an arbitrary number of event permutations. The per-event loop is configured by providing an array of objects in the JSON, where each key in the object is set to an environment variable for one pass through each event DAG for each event ID.
 
-Let's look at the per-event loop in `hello-world/compute-array-loop.json` in this example we've taken our array event generator example and have added a per-event loop of two objects:
+Let's look at the per-event loop in `compute-array-loop.json` in this example we've taken our array event generator example and have added a per-event loop of two objects:
 
 ```json
 "generator": {
