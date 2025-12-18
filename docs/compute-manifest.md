@@ -179,3 +179,136 @@ currently virtual CPUs (VCPU) and memory (MEMORY) in mb can be set in the comput
 --------
 Compute manifest substitution and substitution rules
 
+Compute manifests offer a rich set of substitution placeholder options, which are providead via three primary substitution types and a general syntax of `{{substitution type}::{substitution reference}}`.  The three substitution types are
+  - `ENV`: this represents environment value substitution.  When ENV substitution occurrs, the plugin will take the substitution reference and substitute the environment value for that reference.  For example a substitution of `{ENV::MY_ENV_VAL}` will look for MY_ENV_VAL ion the environment and substitute the value associated with it. Should the system fail to find the environment variable, then an empty string will be substituted.
+  - `ATTR`: attr references attribute substitution.  When ATTR substitution occurrs, the plugin with take the substitution reference and attempt to find an attribute value to substitute. Therefore a substitution of `{ATTR::myAttribute}` would substitute the attribute myAttribute as a string.  If the attribute myAttribute can not be found, the plugin will fail with an invalid attribute name message.
+  - `VAR`: the var reference is reserved for plugin templating and is substituted at runtime by the plugin.  A plugin that uses VAR substituion must documenent the requirement and explicitly handle the substitution in the plugin codebase.
+
+Substitution is limited to the following rules
+ - payload attributes can only use environment substitution configurations
+ - Data Sources can substitute on Path and Data Path items
+ - Data Stores can substitute on params
+ - Action Specific rules
+   - Action attributes can substitute on payload attributes and environment substitution
+   - Action Data Stores and Data Sources can substitute on environment, action attribute, and payload attributes
+
+Substitution values can work with arrays or object maps using the following rules:
+ - for arrays:
+   
+   - the index can be referenced and will be substituted.  for example with the following configuration:
+        ```json
+        "payload_attributes":{
+            "myarray":["one","two","three"]
+        },
+        "data_sources":[
+            {
+                "name": "rasOutput",
+                "paths": {
+                    "default": "the/path/for/file/{ATTR::myarray[1]}.txt"
+                },
+                "store_name": "FFRD"
+            }
+        ]
+        ```
+        would result in the following path after initialization
+        ```json
+        "default": "the/path/for/file/two.txt"
+        ```
+   - the full array can be referenced and the line with substitution references will be expanded to the number of values in the array with each array value substituted per line. for example:
+       ```json
+        "payload_attributes":{
+            "myarray":["one","two","three"]
+        },
+        "data_sources":[
+            {
+                "name": "rasOutput",
+                "paths": {
+                    "default": "the/path/for/file/{ATTR::myarray[]}.txt"
+                },
+                "store_name": "FFRD"
+            }
+        ]
+        ```
+        would result in the following paths after initialization
+        ```json
+        "default-one": "the/path/for/file/one.txt",
+        "default-two": "the/path/for/file/two.txt"
+        "default-three": "the/path/for/file/three.txt"
+        ```
+    - the array can be referenced without array notation and the array value will be reduced to a comma separated list and substituted. for example:
+       ```json
+        "payload_attributes":{
+            "myarray":["one","two","three"]
+        },
+        "data_sources":[
+            {
+                "name": "rasOutput",
+                "paths": {
+                    "default": "the/path/for/file/{ATTR::myarray}.txt"
+                },
+                "store_name": "FFRD"
+            }
+        ]
+        ```
+        would result in the following after initialization
+        ```json
+        "default": "the/path/for/file/one,two,three.txt",
+        ```
+     - *NOTE*: environment variables that consist of a set of comma deliniated values will be treated as an array for substitution. 
+     - *NOTE*: if multiple array substitutions are included in string, the string will be expanded to an array that is the cross product of the arrays.
+
+  - for maps:
+    - a map key index can be referenced and will be substituted.  for example with the following configuration:
+        ```json
+        "payload_attributes":{
+            "mymap":{
+                "key1":"one",
+                "key2":"two",
+                "key3":"three"
+            }
+        },
+        "data_sources":[
+            {
+                "name": "rasOutput",
+                "paths": {
+                    "default": "the/path/for/file/{ATTR::mymap['key3']}.txt"
+                },
+                "store_name": "FFRD"
+            }
+        ]
+        ```
+        would result in the following path after initialization
+        ```json
+        "default": "the/path/for/file/three.txt"
+        ```
+   - the full map can also be referenced and the line with substitution references will be expanded to the number of values in the map with each array value substituted per line. for example:
+       ```json
+        "payload_attributes":{
+            "mymap":{
+                "key1":"one",
+                "key2":"two",
+                "key3":"three"
+            }
+        },
+        "data_sources":[
+            {
+                "name": "rasOutput",
+                "paths": {
+                    "default": "the/path/for/file/{ATTR::mymap[]}.txt"
+                },
+                "store_name": "FFRD"
+            }
+        ]
+        ```
+        would result in the following paths after initialization
+        ```json
+        "default-one": "the/path/for/file/one.txt",
+        "default-two": "the/path/for/file/two.txt"
+        "default-three": "the/path/for/file/three.txt"
+        ```
+
+ 
+
+
+
+
