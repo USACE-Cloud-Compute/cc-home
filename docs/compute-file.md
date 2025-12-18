@@ -51,7 +51,7 @@ Each of the configuration blocks are described below:
             "queue": "MEMORY-OPTIMIZED"
         },
         ``` 
-  - `plugins`: This is the full list of plugin manifests that are used by the compute run. This list is required when running local docker compute, but is only required for AWS batch when registering compute.  If an event is already registered to a set of job descriptions in AWS batch, then this block is optional.  The value for each plugin manifest in the array is the path to the plugin manifest file, either absolute or relative.
+  - `plugins`: This is the full list of plugin manifests that are used by the compute run. This list is required when running local docker compute, but is only required for AWS batch when registering compute.  If an event is already registered to a set of job descriptions in AWS batch, then this block is optional.  The value for each plugin manifest in the array is a path to the plugin manifest file, either absolute or relative.
     sample value:
     ```json
         "plugins": ["../common-files/ras2025-postprocessor-plugin-manifest.json"],
@@ -59,7 +59,7 @@ Each of the configuration blocks are described below:
   - `event`: This section of the configuration is an object, although currently only one parameter "compute-manifests" is required.  Similar to plugins, the `compute-manifests` is an unordered list of the compute manifests files that make up this event.  The files can be referenced via relative or absolute paths.
 
   - `generator`: USACE Cloud Compute introduced the concept of event generators to provide a high degree of flexibility when running stochastic simulations.  Event generators take a single event (i.e. DAG) and create multiple jobs from it then sending each individual job into the compute provider. The individual kinds of event generators and their respective configurations are presented below.
-    - `list event generator`: This is the most simple event generator and is simply a list of events with each event being an individual DAG.  If an event generator is not configured, this will be used and will run the event a single time with an event identifier of 0.  There is no way to add multiple events to the `list event generator` using the CLI tools, but the generator can be accessed using the cloud-compute library and cloud compute golang sofrtware development kit.
+    - `list event generator`: This is the most simple event generator and is simply a list of events with each event being an individual DAG.  If an event generator is not configured, this will be used and will run the event a single time with an event identifier of 0.  There is no way to add mulitple events to the `list event generator` using the CLI tools, but the generator can be accessed using the cloud-compute library and cloud compute golang sofrtware development kit.
 
     - `array event generator`: The array event generator will take a single DAG and send jobs with event identifiers between a specific set of values.  For example if you are running 1000 simulations of the same dag, you can configura a single array event generator so send all of the jobs in a single action.  Array event generators must be configured in the compute file and include the following configuration parameters:
       | Parameter | Description | Sample Value |
@@ -92,7 +92,7 @@ Each of the configuration blocks are described below:
             "delimiter": ","
       }
       ```
-    - there is an optional parameter that can be configured for both the `stream` and `array` generators.  This is the `perEventLoop` values.  When using a perEventLoop, assume we are using an array event generator starting at 1 and ending at 10, for each event in the array event generator, a separate job will be sent for each of the values in the per event loop.  The per event loop simpley defines an object of key value pairs that will be written into the environment for each per event loop execution.  For example, you can configure an array event generator like this:
+    - there is an optional parameter that can be configured for both the `stream` and `array` generators.  This is the `perEventLoop` values.  When using a perEventLoop, assume we are using an array event generator starting at 1 and ending at 10, for each event in the array event generator, a separate job will be sent for each of the values in the per event loop.  The per event loop simply defines an object of key value pairs that will be written into the environment for each per event loop execution.  For example, you can configure an array event generator like this:
        ```json
        {
             "name": "Trinity AEP Grid Compute",
@@ -148,7 +148,7 @@ Each of the configuration blocks are described below:
         MODEL_PREFIX={model-prefix}
         DEBUG_CELL={debug-cell}
       ``` 
-    so for event 500 and the first per event loop value, the plugin would get the folloing in its environment:
+    so for event 500 and the first per event loop value, the plugin would get the following in its environment:
       ```bash
         CC_EVENT_IDENTIFIER=500
         MODEL_PREFIX=bardwell-creek
