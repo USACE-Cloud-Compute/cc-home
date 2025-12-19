@@ -1,0 +1,57 @@
+{
+	"manifest_name": "seed-generation",
+	"plugin_definition": "FFRD-SEED-GENERATOR",
+	"stores": [
+		{
+			"name": "FFRD",
+			"store_type": "S3",
+			"profile": "FFRD",
+			"params": {
+				"root": "model-library/ffrd-trinity"
+			}
+		}
+	],
+	"actions": [
+		{
+			"name": "block-all-seed-generation",
+			"type": "seeds",
+			"description": "generating seeds by blocks for all events in a simulation",
+			"attributes": {
+				"block_dataset_name": "blocks.json",
+				"block_store_type": "json",
+				"seed_dataset_name": "seeds.json",
+				"seed_store_type": "json",
+				"initial_event_seed": 8855534638979991142,
+				"initial_block_seed": 7715454204949210629,
+				"initial_realization_seed": 8380661580462607644,
+				"plugins": [
+					"fragilitycurveplugin",
+					"hms-mutator",
+					"hms-runner",
+					"ressim-runner",
+					"consequences_clear-creek",
+					"consequences_lewisville",
+					"consequences_ray-roberts"
+				]
+			},
+			"inputs": [
+				{
+					"name": "blocks.json",
+					"paths": {
+						"default": "conformance/simulations/blocks.json"
+					},
+					"store_name": "FFRD"
+				}
+			],
+			"outputs": [
+				{
+					"name": "seeds.json",
+					"paths": {
+						"default": "conformance/simulations/seeds.json"
+					},
+					"store_name": "FFRD"
+				}
+			]
+		}
+	]
+}
