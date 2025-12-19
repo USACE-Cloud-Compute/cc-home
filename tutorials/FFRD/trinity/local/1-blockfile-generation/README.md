@@ -50,7 +50,7 @@ Next we need a [compute manifest](https://github.com/USACE-Cloud-Compute/cc-home
     "actions": [
         {
             "name": "block-generation-fixed-length",  //the name of the action to run.  Actions are defined by the plugin author
-            "type": "block-generation-fixed-length", //this is a legecy field. for now, set it to the same value as the namne.
+            "type": "block-generation-fixed-length", //this is a legacy field. for now, set it to the same value as the name.
             "description": "generating blocks", //a user defined description for the run
             "attributes": { //blockfile generation action parameters are defined in the parameter block below
                 "target_total_events": 50,
@@ -113,7 +113,7 @@ The compute file effectively links the plugin manifest, compute manifest and com
 
 
 ### Running the blockfile generation
-to run the blockfile generation performm the following steps
+to run the blockfile generation perform the following steps
   1) make sure you have set up your local stores and copied the starting set of trinity files into your ffrd store
   2) create an environment file to run local docker compute.  The file must have the following elements:
      ```bash
@@ -131,7 +131,7 @@ to run the blockfile generation performm the following steps
   ```bash
   >> cccli -e={path to your environment file} run
   ```
-  for a successfull run, you should see output similar to this:
+  for a successful run, you should see output similar to this:
   ```txt
     Compute Identifier: 755ecc78-d2de-4aae-ba0f-bca924652f59
     2025/12/19 11:23:35 SUBMITTED JOB: a4cc92f6-298f-4994-9e10-146b82575532
