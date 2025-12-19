@@ -74,6 +74,8 @@ Manifests are JSON files based on CC conventions. There are 2 kinds of manifests
 
 The [compute file](./07_compute-file.md) is a JSON file that is used to define the top level Compute configuration. This includes defining what compute environment to use, what plugins will be involved, and what the event structure looks like. One of the most important parts of the compute file is the event generator.
 
+Cloud Compute uses the concept of an event identifier which is injected into the compute environment as the variable `CC_EVENT_IDENTIFIER`. This value is a string and can be anything the plugin needs to incorporate into its compute, from a simple integer event number, to a set of values the plugin can process using its own logic.
+
 You could define a single event in your compute file (see `/hello-world/compute.json`), and this is useful, but what if you want to run the same "event" a hundred times? That's where the event generator concept comes in. There are currently three kinds of event generators available in CC:
 
 Each event generator creates a unique value for the event being run, this value is passed into the compute environment as a string environment variable named `CC_EVENT_IDENTIFIER`. Plugins can use this information to make decisions such as what initial conditions to use for a hydrologic model. By keeping the relationship between the `CC_EVENT_IDENTIFIER` and runtime state static, you can go back and run a subset of events easily by passing in their ID values using the Stream Event Generator. See the [compute file docs](./07_compute-file.md) for more details on each.
