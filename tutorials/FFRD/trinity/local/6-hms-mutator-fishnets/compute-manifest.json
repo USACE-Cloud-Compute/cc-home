@@ -1,0 +1,71 @@
+{
+  "manifest_name": "hms-mutator-fishnets-trinity",
+  "plugin_definition": "FFRD-HMS-MUTATOR",
+  "stores": [
+    {
+      "name": "FFRD",
+      "store_type": "S3",
+      "profile": "FFRD",
+      "params": {
+        "root": "model-library/ffrd-trinity"
+      }
+    }
+  ],
+  "inputs": {
+    "payload_attributes": {
+      "scenario": "conformance",
+      "outputroot": "simulations"
+    },
+    "data_sources": [
+      {
+        "name": "HMS Model",
+        "paths": {
+          "grid": "{ATTR::scenario}/storm-catalog/catalog.grid"
+        },
+        "store_name": "FFRD"
+      },
+      {
+        "name": "TranspositionRegion",
+        "paths": {
+          "default": "{ATTR::scenario}/storm-catalog/transposition-domain.gpkg"
+        },
+        "store_name": "FFRD"
+      },
+      {
+        "name": "WatershedBoundary",
+        "paths": {
+          "default": "{ATTR::scenario}/storm-catalog/watershed-boundary.gpkg"
+        },
+        "store_name": "FFRD"
+      },
+      {
+        "name": "seeds",
+        "paths": {
+          "default": "{ATTR::scenario}/{ATTR::outputroot}/seeds.json"
+        },
+        "store_name": "FFRD"
+      }
+    ]
+  },
+  "outputs": [
+    {
+      "name": "ValidLocations",
+      "paths": {
+        "default": "{ATTR::scenario}/storm-catalog/fishnets"
+      },
+      "store_name": "FFRD"
+    }
+  ],
+  "actions": [
+    {
+      "name": "valid_stratified_locations",
+      "type": "valid_stratified_locations",
+      "description": "create stratified fishnets for storms",
+      "attributes": {
+        "_comment": "4km in meters",
+        "spacing": 4000,
+        "acceptance_threshold": 0.0
+      }
+    }
+  ]
+}
