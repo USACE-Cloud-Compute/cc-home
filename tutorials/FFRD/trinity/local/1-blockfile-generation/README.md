@@ -40,7 +40,7 @@ Next we need a [compute manifest](https://github.com/USACE-Cloud-Compute/cc-home
     ],
     "outputs": [
         {
-            "name": "blocks.json", //the name of the outout data source.  This is defined by the plugin author
+            "name": "blocks.json", //the name of the output data source.  This is defined by the plugin author
             "paths": {
                 "default": "conformance/simulations/blocks.json" //the path to the output location relative to the store root.
             },

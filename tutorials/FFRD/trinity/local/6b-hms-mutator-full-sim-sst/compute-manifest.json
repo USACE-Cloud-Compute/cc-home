@@ -1,0 +1,73 @@
+{
+  "manifest_name": "hms-mutator-full-sim-sst-trinity",
+  "plugin_definition": "FFRD-HMS-MUTATOR",
+  "stores": [
+    {
+      "name": "FFRD",
+      "store_type": "S3",
+      "profile": "FFRD",
+      "params": {
+        "root": "model-library/ffrd-trinity"
+      }
+    }
+  ],
+  "inputs": {
+    "payload_attributes": {
+      "scenario": "conformance",
+      "outputroot": "simulations"
+    }
+  },
+  "actions": [
+    {
+      "type": "full_simulation_sst",
+      "name": "full_simulation_sst",
+      "description": "sample and place storms",
+      "attributes": {
+        "output_data_source": "storms",
+        "storms_directory": "model-library/ffrd-trinity/conformance/storm-catalog/storms/",
+        "storms_store": "FFRD",
+        "fishnet_directory": "model-library/ffrd-trinity/conformance/storm-catalog/fishnets/",
+        "fishnet_store": "FFRD",
+        "fishnet_type_or_name": "name",
+        "storm_type_seasonality_distribution_directory": "model-library/ffrd-trinity/conformance/storm-catalog/seasonality_distributions/",
+        "storm_type_seasonality_distribution_store": "FFRD",
+        "basin_root_directory": "data/basinmodels",
+        "basin_name": "trinity",
+        "por_start_date": "20201001",
+        "por_end_date": "20220930",
+        "calibration_event_names": [
+          "apr_may_1990",
+          "aug_sep_2017",
+          "dec_1991"
+        ],
+        "seed_datasource_key": "seeds",
+        "blocks_datasource_key": "blocks"
+      },
+      "inputs": [
+        {
+          "name": "seeds",
+          "store_name": "FFRD",
+          "paths": {
+            "default": "{ATTR::scenario}/{ATTR::outputroot}/seeds.json"
+          }
+        },
+        {
+          "name": "blocks",
+          "store_name": "FFRD",
+          "paths": {
+            "default": "{ATTR::scenario}/{ATTR::outputroot}/blocks.json"
+          }
+        }
+      ],
+      "outputs": [
+        {
+          "name": "storms",
+          "paths": {
+            "default": "{ATTR::scenario}/{ATTR::outputroot}/storm-catalog/storms.csv"
+          },
+          "store_name": "FFRD"
+        }
+      ]
+    }
+  ]
+}

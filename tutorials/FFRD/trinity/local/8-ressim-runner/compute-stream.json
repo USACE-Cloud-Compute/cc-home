@@ -1,0 +1,24 @@
+{
+    "name": "ressim-Conformance",
+    "provider":{
+        "type":"docker",
+        "concurrency": "1",
+        "queue": "docker-local"
+    },
+    "plugins": ["../common/ressim-runner-plugin-manifest.json"],
+    "event":{
+        "compute-manifests":["ressim-runner-compute-manifest.json"]
+    },    
+    "generator":{
+        "type": "stream",
+        "file": "stream_list.csv",
+        "delimiter": ","
+    },
+    "secrets-manager":{
+        "type": "env",
+        "secrets":{
+            "secretsmanager:AWS_ACCESS_KEY_ID::":"AWS_ACCESS_KEY_ID",
+            "secretsmanager:AWS_SECRET_ACCESS_KEY::":"AWS_SECRET_ACCESS_KEY"
+        }
+    }
+}

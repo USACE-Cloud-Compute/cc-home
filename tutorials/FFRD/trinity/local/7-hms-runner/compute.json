@@ -1,0 +1,24 @@
+{
+    "name": "HMS Runner Compute All Placements for Storms",
+    "provider":{
+        "type":"docker",
+        "concurrency": "1",
+        "queue": "docker-local"
+    },
+    "plugins": ["../common/hms-runner-plugin-manifest.json"],
+    "event":{
+        "compute-manifests":["compute-manifest.json"]
+    },    
+    "generator":{
+        "type": "stream",
+        "file": "stream_list_storm.csv",
+        "delimiter": ","
+    },
+    "secrets-manager":{
+        "type": "env",
+        "secrets":{
+            "secretsmanager:AWS_ACCESS_KEY_ID::":"AWS_ACCESS_KEY_ID",
+            "secretsmanager:AWS_SECRET_ACCESS_KEY::":"AWS_SECRET_ACCESS_KEY"
+        }
+    }
+}

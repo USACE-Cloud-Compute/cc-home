@@ -1,0 +1,19 @@
+{
+    "name": "HMS Mutator Fuyll Sim SST",
+    "provider":{
+        "type":"docker",
+        "concurrency": "1",
+        "queue": "docker-local"
+    },
+    "plugins": ["../common/hms-mutator-plugin-manifest.json"],
+    "event":{
+        "compute-manifests":["compute-manifest.json"]
+    },
+    "secrets-manager":{
+        "type": "env",
+        "secrets":{
+            "secretsmanager:AWS_ACCESS_KEY_ID::":"AWS_ACCESS_KEY_ID",
+            "secretsmanager:AWS_SECRET_ACCESS_KEY::":"AWS_SECRET_ACCESS_KEY"
+        }
+    }
+}

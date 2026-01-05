@@ -1,0 +1,57 @@
+{
+  "manifest_name": "fragilitycurves-trinity",
+  "plugin_definition": "FFRD-FRAGILITYCURVES-TRINITY",
+  "stores": [
+    {
+      "name": "FFRD",
+      "store_type": "S3",
+      "profile": "FFRD",
+      "params": {
+        "root": "model-library/ffrd-trinity"
+      }
+    }
+  ],
+  "inputs": {
+    "payload_attributes": {
+      "scenario": "conformance",
+      "outputroot": "simulations"
+    }
+  },
+  "actions": [
+    {
+      "name": "all-samples",
+      "type": "all-samples",
+      "description": "create failure_elevations",
+      "attributes": {
+        "seeds_format": false,
+        "elevations_format": false
+      },
+      "inputs": [
+        {
+          "name": "fragilitycurve",
+          "paths": {
+            "default": "{ATTR::scenario}/system-response/{ATTR::scenario}_system_response_curves.json"
+          },
+          "store_name": "FFRD"
+        },
+        {
+          "name": "seeds",
+          "paths": {
+            "default": "{ATTR::scenario}/{ATTR::outputroot}/seeds.json"
+          },
+          "store_name": "FFRD"
+        }
+      ],
+      "outputs": [
+        {
+          "name": "failure_elevations",
+          "paths": {
+            "default": "{ATTR::scenario}/{ATTR::outputroot}/system-response/failure_elevations.csv",
+            "event": "{ATTR::scenario}/{ATTR::outputroot}/event-data/{VAR::eventnumber}/system-response/failure_elevations.json"
+          },
+          "store_name": "FFRD"
+        }
+      ]
+    }
+  ]
+}
