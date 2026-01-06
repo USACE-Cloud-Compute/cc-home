@@ -1,0 +1,289 @@
+{
+    "manifest_name": "compute-ras-clear-creek",
+    "plugin_definition": "CC-RAS-PLUGIN",
+    "stores": [
+        {
+            "name": "FFRD",
+            "store_type": "S3",
+            "profile": "FFRD",
+            "params": {
+                "root": "model-library/ffrd-trinity"
+            }
+        }
+    ],
+    "inputs": {
+        "data_sources": [
+            {
+                "name": "{ATTR::modelPrefix}.p{ATTR::plan}.tmp.hdf",
+                "paths": {
+                    "b_file": "{ATTR::scenario}/{ATTR::base-hydraulics-directory}/{ATTR::modelPrefix}/{ATTR::modelPrefix}.b{ATTR::geom}",
+                    "o_file": "{ATTR::scenario}/{ATTR::base-hydraulics-directory}/{ATTR::modelPrefix}/{ATTR::modelPrefix}.ic.o{ATTR::plan}",
+                    "tmp_hdf": "{ATTR::scenario}/{ATTR::outputdir}/event-data/{ENV::CC_EVENT_IDENTIFIER}/{ATTR::base-hydraulics-directory}/{ATTR::modelPrefix}/{ATTR::modelPrefix}.p{ATTR::plan}.tmp.hdf",
+                    "x_file": "{ATTR::scenario}/{ATTR::base-hydraulics-directory}/{ATTR::modelPrefix}/{ATTR::modelPrefix}.x{ATTR::plan}"
+                },
+                "store_name": "FFRD"
+            },
+            {
+                "name": "failure_elevations.json",
+                "paths": {
+                    "failure_elevations": "{ATTR::scenario}/{ATTR::outputdir}/event-data/{ENV::CC_EVENT_IDENTIFIER}/{ATTR::base-system-response-directory}/failure_elevations.json"
+                },
+                "store_name": "FFRD"
+            }
+        ],
+        "environment": [
+            {
+                "name": "HDF_AWS_S3_TEMPLATE",
+                "value": "https://%s.s3.us-gov-west-1.amazonaws.com/%s/%s"
+            }
+        ],
+        "payload_attributes": {
+            "base-hydraulics-directory": "hydraulics",
+            "base-hydrology-directory": "hydrology",
+            "base-reservoir-operations-directory": "reservoir-operations",
+            "base-system-response-directory": "system-response",
+            "geom": "01",
+            "hydrology-simulation": "SST",
+            "model-name": "trinity",
+            "modelPrefix": "clear-creek",
+            "twoDSA": "clear-creek",
+            "outputdir": "simulations",
+            "outputroot": "simulations/event-data",
+            "plan": "01",
+            "scenario": "conformance",
+            "watershed": "ffrd_trinity"
+        }
+    },
+    "outputs": [
+        {
+            "name": "{ATTR::modelPrefix}.p{ATTR::plan}.tmp.hdf",
+            "paths": {
+                "0": "{ATTR::scenario}/{ATTR::outputdir}/event-data/{ENV::CC_EVENT_IDENTIFIER}/{ATTR::base-hydraulics-directory}/{ATTR::modelPrefix}/{ATTR::modelPrefix}.p{ATTR::plan}.hdf"
+            },
+            "store_name": "FFRD"
+        },
+        {
+            "name": "rasoutput",
+            "paths": {
+                "0": "{ATTR::scenario}/{ATTR::outputdir}/event-data/{ENV::CC_EVENT_IDENTIFIER}/{ATTR::base-hydraulics-directory}/{ATTR::modelPrefix}/rasoutput.log"
+            },
+            "store_name": "FFRD"
+        },
+        {
+            "name": "event_summary",
+            "paths": {
+                "extract": "{ATTR::scenario}/{ATTR::outputdir}/event-data/{ENV::CC_EVENT_IDENTIFIER}/hydraulics/{ATTR::modelPrefix}/ras-event-summary.json"
+            },
+            "store_name": "FFRD"
+        }
+    ],
+    "actions": [
+        {
+            "attributes": {},
+            "description": "copy-files",
+            "inputs": [],
+            "name": "copy-inputs",
+            "outputs": [],
+            "stores": [
+                {
+                    "name": "FFRD",
+                    "store_type": "S3",
+                    "profile": "FFRD",
+                    "params": {
+                        "root": "model-library/ffrd-trinity"
+                    }
+                }
+            ],
+            "type": "utils"
+        },
+        {
+            "name": "update-breach-bfile",
+            "type": "link",
+            "description": "updating failure elevation triggers",
+            "attributes": {
+                "bFile": "clear-creek.b01",
+                "fcFile": "failure_elevations.json",
+                "geoHdfFile": "clear-creek.p01.tmp.hdf"
+            },
+            "inputs": [],
+            "outputs": [],
+            "stores": [
+                {
+                    "name": "FFRD",
+                    "store_type": "S3",
+                    "profile": "FFRD",
+                    "params": {
+                        "root": "model-library/ffrd-trinity"
+                    }
+                }
+            ]
+        },
+        {
+            "attributes": {
+                "geom": "01",
+                "modelPrefix": "clear-creek",
+                "plan": "01"
+            },
+            "description": "compute unsteady simulation",
+            "inputs": [],
+            "name": "unsteady-simulation",
+            "outputs": [],
+            "stores": [
+                {
+                    "name": "FFRD",
+                    "store_type": "S3",
+                    "profile": "FFRD",
+                    "params": {
+                        "root": "model-library/ffrd-trinity"
+                    }
+                }
+            ],
+            "type": "run"
+        },
+        {
+            "name": "ras-extract",
+            "type": "extract",
+            "description": "boundary condition peak flow and stage",
+            "attributes": {
+                "plan": "{ATTR::plan}.tmp",
+                "modelPrefix": "{ATTR::modelPrefix}",
+                "outputformat":"json",
+                "grouppath": "/Results/Unsteady/Output/Output Blocks/Base Output/Unsteady Time Series/Boundary Conditions",
+                "colnames":["stage(ft)","flow(cfs)"],
+                "exclude": "Flow per Face|Stage per Face|Flow per Cell",
+                "postprocess":["max"],
+                "writesummary":true,
+                "datatype": "float32",
+                "block-name": "bcline_peak",
+                "accumulate-results": true
+            }
+        },
+        {
+            "name": "ras-extract",
+            "type": "extract",
+            "description": "refline-flow",
+            "attributes": {
+                "plan": "{ATTR::plan}.tmp",
+                "modelPrefix": "{ATTR::modelPrefix}",
+                "outputformat":"json",
+                "datapath": "/Results/Unsteady/Output/Output Blocks/Base Output/Unsteady Time Series/Reference Lines/Flow",
+                "coldata":"/Results/Unsteady/Output/Output Blocks/Base Output/Unsteady Time Series/Reference Lines/Name",
+                "postprocess":["max"],
+                "writesummary":true,
+                "datatype": "float32",
+                "block-name": "refline_peak_flow",
+                "accumulate-results": true
+            }
+        },
+        {
+            "name": "ras-extract",
+            "type": "extract",
+            "description": "refline-wsel",
+            "attributes": {
+                "plan": "{ATTR::plan}.tmp",
+                "modelPrefix": "{ATTR::modelPrefix}",
+                "outputformat":"json",
+                "datapath": "/Results/Unsteady/Output/Output Blocks/Base Output/Unsteady Time Series/Reference Lines/Water Surface",
+                "coldata":"/Results/Unsteady/Output/Output Blocks/Base Output/Unsteady Time Series/Reference Lines/Name",
+                "postprocess":["max"],
+                "writesummary":true,
+                "datatype": "float32",
+                "block-name": "refline_peak_wsel",
+                "accumulate-results": true
+            }
+        },
+        {
+            "name": "ras-extract",
+            "type": "extract",
+            "description": "refpoint-velocity",
+            "attributes": {
+                "plan": "{ATTR::plan}.tmp",
+                "modelPrefix": "{ATTR::modelPrefix}",
+                "outputformat":"json",
+                "datapath": "/Results/Unsteady/Output/Output Blocks/Base Output/Unsteady Time Series/Reference Points/Velocity",
+                "coldata":"/Results/Unsteady/Output/Output Blocks/Base Output/Unsteady Time Series/Reference Points/Name",
+                "postprocess":["max","min"],
+                "writesummary":true,
+                "datatype": "float32",
+                "block-name": "refpoint_velocity",
+                "accumulate-results": true
+            }
+        },
+        {
+            "name": "ras-extract",
+            "type": "extract",
+            "description": "refpoint-wsel",
+            "attributes": {
+                "plan": "{ATTR::plan}.tmp",
+                "modelPrefix": "{ATTR::modelPrefix}",
+                "outputformat":"json",
+                "datapath": "/Results/Unsteady/Output/Output Blocks/Base Output/Unsteady Time Series/Reference Points/Water Surface",
+                "coldata":"/Results/Unsteady/Output/Output Blocks/Base Output/Unsteady Time Series/Reference Points/Name",
+                "postprocess":["max","min"],
+                "writesummary":true,
+                "datatype": "float32",
+                "block-name": "refpoint_wsel",
+                "accumulate-results": true
+            }
+        },
+        {
+            "name": "ras-extract",
+            "type": "extract",
+            "description": "structure variable peak",
+            "attributes": {
+                "plan": "{ATTR::plan}.tmp",
+                "modelPrefix": "{ATTR::modelPrefix}",
+                "outputformat": "json",
+                "grouppath": "/Results/Unsteady/Output/Output Blocks/Base Output/Unsteady Time Series/2D Flow Areas/{ATTR::twoDSA}/2D Hyd Conn",
+                "groupsuffix": "Structure Variables",
+                "colnames": ["Total Flow", "Weir Flow", "Stage HW", "Stage TW", "Total Culv"],
+                "postprocess":  ["max"],
+                "writesummary":true,
+                "datatype": "float32",
+                "block-name": "structure_var_peak",
+                "accumulate-results": true
+            }
+        },
+        {
+            "name": "ras-extract",
+            "type": "extract",
+            "description": "summary attributes",
+            "attributes": {
+                "plan": "{ATTR::plan}.tmp",
+                "modelPrefix": "{ATTR::modelPrefix}",
+                "outputformat": "json",
+                "datapath":  "/Results/Unsteady/Summary",
+                "attributes": true,
+                "colnames": ["Computation Time DSS", "Computation Time Total", "Maximum WSEL Error", "Maximum number of cores", "Run Time Window", "Solution", "Time Solution Went Unstable","Time Stamp Solution Went Unstable"],
+                "block-name": "summary_attributes",
+                "accumulate-results": true
+            }
+        },
+        {
+            "name": "ras-extract",
+            "type": "extract",
+            "description": "2dSA summary attributes",
+            "attributes": {
+                "plan": "{ATTR::plan}.tmp",
+                "modelPrefix": "{ATTR::modelPrefix}",
+                "outputformat": "json",
+                "datapath":  "/Results/Unsteady/Output/Output Blocks/Base Output/Summary Output/2D Flow Areas/{ATTR::twoDSA}",
+                "attributes": true,
+                "colnames": ["Cum Net Precip Inches", "Vol Accounting Error", "Vol Accounting Error Percentage", "Vol Accounting External Inflow", "Vol Accounting External Outflow", "Vol Acct. Inflow from Net Precip"],
+                "block-name": "2DSA_summary_attributes",
+                "accumulate-results": true
+            }
+        },
+        {
+            "name": "ras-breach-extract",
+            "type": "extract",
+            "description": "breach-extract",
+            "attributes": {
+                "plan": "{ATTR::plan}.tmp",
+                "modelPrefix": "{ATTR::modelPrefix}",
+                "outputDataSource": "event_summary"
+            }
+        }
+    ],
+    "depends-on": []
+}

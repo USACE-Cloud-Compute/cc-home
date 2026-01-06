@@ -1,0 +1,58 @@
+{
+    "plugin_definition": "CC-RAS-PLUGIN",
+    "manifest_name": "create-tmp",
+    "stores": [
+        {
+            "name": "FFRD",
+            "store_type": "S3",
+            "profile": "FFRD",
+            "params": {
+                "root": "model-library/ffrd-trinity"
+            }
+        }
+    ],
+    "inputs": {
+        "payload_attributes": {
+            "base-hydraulics-directory": "hydraulics",
+            "modelPrefix": "{ENV::MODEL_PREFIX}",
+            "plan": "01",
+            "scenario": "conformance"
+        },
+        "data_sources": [
+            {
+                "name": "{ATTR::modelPrefix}.p{ATTR::plan}.hdf",
+                "paths": {
+                    "0": "{ATTR::scenario}/{ATTR::base-hydraulics-directory}/{ATTR::modelPrefix}/{ATTR::modelPrefix}.p{ATTR::plan}.hdf"
+                },
+                "store_name": "FFRD"
+            }
+        ]
+    },
+    "outputs": [
+        {
+            "name": "{ATTR::modelPrefix}.p{ATTR::plan}.tmp.hdf",
+            "paths": {
+                "0": "{ATTR::scenario}/{ATTR::base-hydraulics-directory}/{ATTR::modelPrefix}/{ATTR::modelPrefix}.p{ATTR::plan}.hdf"
+            },
+            "store_name": "FFRD"
+        }
+    ],
+    "actions": [
+        {
+            "name": "copy-inputs",
+            "description": "copy-files",
+            "type": "utils"
+        },
+        {
+            "name": "create-ras-tmp",
+            "description": "removing results from hdf file",
+            "type": "utils",
+            "attributes": {
+                "local_dest": "{ATTR::modelPrefix}.p{ATTR::plan}.tmp.hdf",
+                "remote_dest": "{ATTR::modelPrefix}.p{ATTR::plan}.tmp.hdf",
+                "save_to_remote": "true",
+                "src": "{ATTR::modelPrefix}.p{ATTR::plan}.hdf"
+            }
+        }
+    ]
+}

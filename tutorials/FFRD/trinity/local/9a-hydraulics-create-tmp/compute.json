@@ -1,0 +1,29 @@
+{
+    "name": "CreateTemp-Conformance",
+    "provider":{
+        "type":"docker",
+        "concurrency": "1",
+        "queue": "docker-local"
+    },
+    "plugins": ["../common/ras-6.4.1-plugin-manifest.json"],
+    "event":{
+        "compute-manifests":["create-tmp-compute-manifest.json"]
+    },    
+    "generator":{
+        "type": "stream",
+        "file": "stream_list.csv",
+        "delimiter": ",",
+        "perEventLoop":[
+            {"MODEL_PREFIX":"clear-creek"},
+            {"MODEL_PREFIX":"lewisville"},
+            {"MODEL_PREFIX":"ray-roberts"}
+        ]
+    },
+    "secrets-manager":{
+        "type": "env",
+        "secrets":{
+            "secretsmanager:AWS_ACCESS_KEY_ID::":"AWS_ACCESS_KEY_ID",
+            "secretsmanager:AWS_SECRET_ACCESS_KEY::":"AWS_SECRET_ACCESS_KEY"
+        }
+    }
+}
