@@ -1,0 +1,64 @@
+{
+	"manifest_name": "production-consequences",
+	"plugin_definition": "FFRD-CONSEQUENCES",
+	"stores": [{
+		"name": "FFRD",
+		"store_type": "S3",
+		"profile": "FFRD",
+		"params": {
+			"root": "model-library/ffrd-trinity"
+		}
+	}],
+	"inputs": {
+		"payload_attributes": {
+            "outputdir": "simulations",
+            "output-root": "simulations/summary-data",
+            "scenario": "production",
+			"inventory": "nsi_2025",
+			"vsi-root": "/vsis3/ffrd-computable/model-library/ffrd-trinity"
+        },
+		"data_sources": [
+			{
+				"name": "{ENV::MODEL_PREFIX}.gpkg",
+				"paths": {"default":"{ATTR::scenario}/consequences/{ATTR::inventory}/{ENV::MODEL_PREFIX}.gpkg"},
+				"store_name": "FFRD"
+			},{
+				"name": "Inland_FFRD_damageFunctions.json",
+				"paths": {"default":"{ATTR::scenario}/consequences/Inland_FFRD_damageFunctions.json"},
+				"store_name": "FFRD"
+			}
+		]
+	},
+	"outputs": [{
+		"name": "{ENV::MODEL_PREFIX}_consequences",
+		"paths": {"default":"{ATTR::scenario}/simulations/summary-data/consequences/{ENV::MODEL_PREFIX}_consequences.gpkg"},
+		"store_name": "FFRD"
+	}],
+	"actions": [{
+			"name": "copy-inputs",
+			"type": "utils",
+			"description": "copy-inputs"
+		},
+		{
+			"name": "compute-fema-frequency-single-parameter",
+			"type": "compute",
+			"description": "computing frequency based losses with hydraulic uncertainty",
+			"attributes": {
+				"tableName":        "nsi",
+				"Inventory":        "/app/data/{ENV::MODEL_PREFIX}.gpkg",
+				"inventoryDriver":  "GPKG",
+				"mean-depth-grids":       "/vsis3/ffrd-computable/model-library/ffrd-trinity/{ATTR::scenario}/simulations/summary-data/aep-grids/{ENV::MODEL_PREFIX}/mean_aep_depth_10yr.tif, /vsis3/ffrd-computable/model-library/ffrd-trinity/{ATTR::scenario}/simulations/summary-data/aep-grids/{ENV::MODEL_PREFIX}/mean_aep_depth_20yr.tif, /vsis3/ffrd-computable/model-library/ffrd-trinity/{ATTR::scenario}/simulations/summary-data/aep-grids/{ENV::MODEL_PREFIX}/mean_aep_depth_50yr.tif, /vsis3/ffrd-computable/model-library/ffrd-trinity/{ATTR::scenario}/simulations/summary-data/aep-grids/{ENV::MODEL_PREFIX}/mean_aep_depth_100yr.tif, /vsis3/ffrd-computable/model-library/ffrd-trinity/{ATTR::scenario}/simulations/summary-data/aep-grids/{ENV::MODEL_PREFIX}/mean_aep_depth_200yr.tif, /vsis3/ffrd-computable/model-library/ffrd-trinity/{ATTR::scenario}/simulations/summary-data/aep-grids/{ENV::MODEL_PREFIX}/mean_aep_depth_500yr.tif, /vsis3/ffrd-computable/model-library/ffrd-trinity/{ATTR::scenario}/simulations/summary-data/aep-grids/{ENV::MODEL_PREFIX}/mean_aep_depth_1000yr.tif, /vsis3/ffrd-computable/model-library/ffrd-trinity/{ATTR::scenario}/simulations/summary-data/aep-grids/{ENV::MODEL_PREFIX}/mean_aep_depth_2000yr.tif",
+				"stdev-depth-grids":       "/vsis3/ffrd-computable/model-library/ffrd-trinity/{ATTR::scenario}/simulations/summary-data/aep-grids/{ENV::MODEL_PREFIX}/stdev_aep_depth_10yr.tif, /vsis3/ffrd-computable/model-library/ffrd-trinity/{ATTR::scenario}/simulations/summary-data/aep-grids/{ENV::MODEL_PREFIX}/stdev_aep_depth_20yr.tif, /vsis3/ffrd-computable/model-library/ffrd-trinity/{ATTR::scenario}/simulations/summary-data/aep-grids/{ENV::MODEL_PREFIX}/stdev_aep_depth_50yr.tif, /vsis3/ffrd-computable/model-library/ffrd-trinity/{ATTR::scenario}/simulations/summary-data/aep-grids/{ENV::MODEL_PREFIX}/stdev_aep_depth_100yr.tif, /vsis3/ffrd-computable/model-library/ffrd-trinity/{ATTR::scenario}/simulations/summary-data/aep-grids/{ENV::MODEL_PREFIX}/stdev_aep_depth_200yr.tif, /vsis3/ffrd-computable/model-library/ffrd-trinity/{ATTR::scenario}/simulations/summary-data/aep-grids/{ENV::MODEL_PREFIX}/stdev_aep_depth_500yr.tif, /vsis3/ffrd-computable/model-library/ffrd-trinity/{ATTR::scenario}/simulations/summary-data/aep-grids/{ENV::MODEL_PREFIX}/stdev_aep_depth_1000yr.tif, /vsis3/ffrd-computable/model-library/ffrd-trinity/{ATTR::scenario}/simulations/summary-data/aep-grids/{ENV::MODEL_PREFIX}/stdev_aep_depth_2000yr.tif",
+				"frequencies": "0.1, 0.05, 0.02, 0.01, 0.002, 0.005, 0.0002, 0.0005",
+				"vertical-slice": "0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9",
+				"outputDriver":     "GPKG",
+				"outputFileName":   "/app/data/{ENV::MODEL_PREFIX}_consequences.gpkg",
+				"damage-functions": "/app/data/Inland_FFRD_damageFunctions.json"
+			}
+		},{
+			"name": "post-outputs",
+			"type": "utils",
+			"description": "post-outputs"
+		}
+	]
+}
