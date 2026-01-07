@@ -1,0 +1,24 @@
+{
+    "name": "Consequences_test_Production",
+    "provider":{
+        "type":"docker",
+        "concurrency": "3",
+        "queue": "docker-local"
+    },
+    "plugins": ["consequences-runner-plugin-manifest.json"],
+    "event":{
+        "compute-manifests":[
+            "compute-manifest.json"
+        ]
+    },    
+    "generator":{
+        "type": "stream",
+        "file": "stream-list.csv",
+        "delimiter": ",",
+        "perEventLoop":[
+            {"MODEL_PREFIX":"clear-creek"},
+            {"MODEL_PREFIX":"lewisville"},
+            {"MODEL_PREFIX":"ray-roberts"}
+        ]
+    }
+}
