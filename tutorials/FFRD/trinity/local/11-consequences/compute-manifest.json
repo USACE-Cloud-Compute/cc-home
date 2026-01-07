@@ -14,8 +14,7 @@
             "outputdir": "simulations",
             "output-root": "simulations/summary-data",
             "scenario": "production",
-			"inventory": "nsi_2025",
-			"vsi-root": "/vsis3/ffrd-computable/model-library/ffrd-trinity"
+			"inventory": "nsi_2025"
         },
 		"data_sources": [
 			{
