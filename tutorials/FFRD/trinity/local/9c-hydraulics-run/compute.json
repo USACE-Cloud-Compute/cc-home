@@ -1,0 +1,28 @@
+{
+    "name": "Run-RAS-RUNNER-Conformance",
+    "provider":{
+        "type":"docker",
+        "concurrency": "1",
+        "queue": "docker-local"
+    },
+    "plugins": ["../common/ras-6.4.1-plugin-manifest.json"],
+    "event":{
+        "compute-manifests":[
+            "ras-runner-compute-manifest-clear-creek.json",
+            "ras-runner-compute-manifest-ray-roberts.json",
+            "ras-runner-compute-manifest-lewisville.json"
+        ]
+    },    
+    "generator":{
+        "type": "stream",
+        "file": "stream_list.csv",
+        "delimiter": ","
+    },
+    "secrets-manager":{
+        "type": "env",
+        "secrets":{
+            "secretsmanager:AWS_ACCESS_KEY_ID::":"AWS_ACCESS_KEY_ID",
+            "secretsmanager:AWS_SECRET_ACCESS_KEY::":"AWS_SECRET_ACCESS_KEY"
+        }
+    }
+}
