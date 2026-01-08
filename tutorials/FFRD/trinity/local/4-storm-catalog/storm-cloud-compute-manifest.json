@@ -1,0 +1,40 @@
+{
+    "manifest_name":     "stormhub",
+    "plugin_definition": "STORMHUB",
+    "stores": [
+        {
+            "name": "FFRD",
+            "store_type": "S3",
+            "profile": "FFRD",
+            "params": {
+                "root": "/model-library/ffrd-trinity"
+            }
+        }
+    ],
+    "inputs":{
+      "payload_attributes": {
+            "catalog_id": "data",
+            "catalog_description": "Storm Catalog Description",
+            "start_date": "2022-11-02",
+            "end_date": "2022-12-01",
+            "storm_duration": 72,
+            "min_precip_threshold": 0,
+            "top_n_events": 1,
+            "check_every_n_hours": 12,
+            "specific_dates": [],
+            "input_path": "conformance/storm-catalog",
+            "output_path": "conformance/storm-catalog/generated-outputs"
+      },
+      "data_sources": [{
+            "name": "StormHubInputs",
+            "paths": {
+                "watershed": "{ATTR::input_path}/watershed-boundary.geojson",
+                "transposition": "{ATTR::input_path}/transposition-domain.geojson"
+            },
+            "data_paths": {},
+            "store_name": "FFRD"
+    }]
+    },
+    "outputs": [],
+    "actions": []
+}
