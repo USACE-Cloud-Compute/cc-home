@@ -1,11 +1,11 @@
 {
-    "name":"CC-RAS-PLUGIN",
-    "image_and_tag":"030604683087.dkr.ecr.us-gov-west-1.amazonaws.com/compute-plugins:ras-runner-6.4.1",
-    "description":"RAS 6.4.1 Runner",
-    "command":["/ras/ras-runner"],
+    "name":"STORMHUB",
+    "image_and_tag":"ghcr.io/usace-cloud-compute/cc-stormhub-cloud:v0.0.1",
+    "description":"StormCloud runner",
+    "command":["python3.12", "main.py"],
     "compute_environment":{
-        "vcpu":"10",
-        "memory":"4096"
+        "vcpu":"8",
+        "memory":"15000"
     },
     "environment":[
         {
@@ -33,26 +33,26 @@
             "value": "http://host.docker.internal:9000"
         },
         {
-            "name":  "RAS_SCRIPT_PATH",
-            "value": "/ras"
+            "name":  "CC_ROOT",
+            "value": "cc_store"
         }
     ],
     "credentials":[
         {
             "name":  "CC_AWS_ACCESS_KEY_ID",
-            "value": "secretsmanager:AWS_ACCESS_KEY_ID::"
+            "value": "secretsmanager:CC_AWS_ACCESS_KEY_ID::"
         },
         {
             "name":  "CC_AWS_SECRET_ACCESS_KEY",
-            "value": "secretsmanager:AWS_SECRET_ACCESS_KEY::"
+            "value": "secretsmanager:CC_AWS_SECRET_ACCESS_KEY::"
         },
         {
             "name":  "FFRD_AWS_ACCESS_KEY_ID",
-            "value": "secretsmanager:AWS_ACCESS_KEY_ID::"
+            "value": "secretsmanager:FFRD_AWS_ACCESS_KEY_ID::"
         },
         {
             "name":  "FFRD_AWS_SECRET_ACCESS_KEY",
-            "value": "secretsmanager:AWS_SECRET_ACCESS_KEY::"
+            "value": "secretsmanager:FFRD_AWS_SECRET_ACCESS_KEY::"
         }
     ]
 }
