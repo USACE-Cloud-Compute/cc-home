@@ -1,0 +1,71 @@
+{
+    "name":"FFRD-HMS-RUNNER-TRINITY",
+    "image_and_tag":"ghcr.io/usace-cloud-compute/hms-runner:v1.0.3",
+    "description":"HMS Runner",
+    "command": [
+      "/usr/lib/jvm/java-17-openjdk-amd64/bin/java",
+      "-Djava.library.path=/HEC-HMS-4.13-beta.6/bin/gdal:/HEC-HMS-4.13-beta.6/bin:/HEC-HMS-4.13-beta.6/bin/taudem:/HEC-HMS-4.13-beta.6/bin/mpi:/HEC-HMS-4.13-beta.6/jre/bin:/HEC-HMS-4.13-beta.6/jre/lib/",
+      "-jar",
+      "hms-runner-0.0.1.jar"
+    ],
+    "compute_environment":{
+        "vcpu":"4",
+        "memory":"6000"
+    },
+     "environment": [
+        {
+            "name": "CC_AWS_DEFAULT_REGION",
+            "value": "us-east-1"
+        },
+        {
+            "name": "CC_AWS_S3_BUCKET",
+            "value": "ccstore"
+        },
+        {
+            "name": "CC_AWS_ENDPOINT",
+            "value": "http://host.docker.internal:9000"
+        },
+        {
+            "name": "FFRD_AWS_DEFAULT_REGION",
+            "value": "us-east-1"
+        },
+        {
+            "name": "FFRD_AWS_S3_BUCKET",
+            "value": "project-data"
+        },
+        {
+            "name": "FFRD_AWS_ENDPOINT",
+            "value": "http://host.docker.internal:9000"
+        },
+        {
+            "name":  "GDAL_DATA",
+            "value": "/HEC-HMS-4.13-beta.6/bin/gdal/gdal-data"
+        },
+        {
+            "name":  "PROJ_LIB",
+            "value": "/HEC-HMS-4.13-beta.6/bin/gdal/proj"
+        },
+        {
+            "name": "CC_ROOT",
+            "value": "cc_store"
+        }
+    ],
+    "credentials": [
+        {
+            "name": "CC_AWS_ACCESS_KEY_ID",
+            "value": "secretsmanager:AWS_ACCESS_KEY_ID::"
+        },
+        {
+            "name": "CC_AWS_SECRET_ACCESS_KEY",
+            "value": "secretsmanager:AWS_SECRET_ACCESS_KEY::"
+        },
+        {
+            "name": "FFRD_AWS_ACCESS_KEY_ID",
+            "value": "secretsmanager:AWS_ACCESS_KEY_ID::"
+        },
+        {
+            "name": "FFRD_AWS_SECRET_ACCESS_KEY",
+            "value": "secretsmanager:AWS_SECRET_ACCESS_KEY::"
+        }
+    ]
+}
