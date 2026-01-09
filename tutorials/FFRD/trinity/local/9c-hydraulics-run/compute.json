@@ -15,7 +15,7 @@
     },    
     "generator":{
         "type": "stream",
-        "file": "stream_list.csv",
+        "file": "../common/important_events.csv",
         "delimiter": ","
     },
     "secrets-manager":{
