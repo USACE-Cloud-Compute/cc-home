@@ -19,7 +19,7 @@ CC_AWS_ENDPOINT=http://localhost:9000
 > Make sure to update your access keys to the ones created when configuring the local `ccstore` in minio.
 
 ## Data Package.
-Download the conformance data for the trinity project from this [base data package](https://github.com/USACE-Cloud-Compute/cc-home/releases/download/1.0.1/conformance.7z) and extract it to `tutorials/tutorials/FFRD/trinity/local/data/ffrd-trinity/`. You can further download the [terrain package](https://github.com/USACE-Cloud-Compute/cc-home/releases/download/1.0.1/terrain-mapping.7z) for the steps involving generating gridded outputs from RAS 2025.
+Download the conformance data for the trinity project from this [base data package](https://github.com/USACE-Cloud-Compute/cc-home/releases/download/1.0.1/conformance.7z) and extract it to `tutorials/tutorials/FFRD/trinity/data/ffrd-trinity/`. You can further download the [terrain package](https://github.com/USACE-Cloud-Compute/cc-home/releases/download/1.0.1/terrain-mapping.7z) for the steps involving generating gridded outputs from RAS 2025.
 
 Once the data is downloaded and extracted, it needs to be loaded into the "project-data" bucket on minio.
 
