@@ -1,0 +1,21 @@
+{
+    "name": "StormHub Test",
+    "provider":{
+        "type":"docker",
+        "concurrency":1,
+        "queue": "docker-local"
+    },
+    "plugins": ["../common/storm-cloud-plugin-manifest.json"],
+    "event":{
+        "compute-manifests":["storm-cloud-compute-manifest.json"]
+    },
+    "secrets-manager":{
+        "type": "env",
+        "secrets":{
+            "secretsmanager:CC_AWS_ACCESS_KEY_ID::":"CC_AWS_ACCESS_KEY_ID",
+            "secretsmanager:CC_AWS_SECRET_ACCESS_KEY::":"CC_AWS_SECRET_ACCESS_KEY",
+            "secretsmanager:FFRD_AWS_ACCESS_KEY_ID::":"AWS_ACCESS_KEY_ID",
+            "secretsmanager:FFRD_AWS_SECRET_ACCESS_KEY::":"AWS_SECRET_ACCESS_KEY"
+        }
+    }
+}
