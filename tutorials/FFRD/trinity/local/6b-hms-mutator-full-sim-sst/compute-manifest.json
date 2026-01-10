@@ -34,7 +34,7 @@
         "basin_root_directory": "data/basinmodels",
         "basin_name": "trinity",
         "por_start_date": "20201001",
-        "por_end_date": "20220930",
+        "por_end_date": "20210930",
         "calibration_event_names": [
           "apr_may_1990",
           "aug_sep_2017",
