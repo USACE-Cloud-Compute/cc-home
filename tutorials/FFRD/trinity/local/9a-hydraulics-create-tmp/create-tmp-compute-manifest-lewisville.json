@@ -1,5 +1,5 @@
 {
-    "plugin_definition": "CC-RAS-PLUGIN",
+    "plugin_definition": "RAS-RUNNER",
     "manifest_name": "create-tmp",
     "stores": [
         {
@@ -7,22 +7,21 @@
             "store_type": "S3",
             "profile": "FFRD",
             "params": {
-                "root": "model-library/ffrd-trinity"
+                "root": "/model-library/ffrd-trinity"
             }
         }
     ],
     "inputs": {
         "payload_attributes": {
             "base-hydraulics-directory": "hydraulics",
-            "modelPrefix": "{ENV::MODEL_PREFIX}",
             "plan": "01",
             "scenario": "conformance"
         },
         "data_sources": [
             {
-                "name": "{ATTR::modelPrefix}.p{ATTR::plan}.hdf",
+                "name": "lewisville.p01.hdf",
                 "paths": {
-                    "0": "{ATTR::scenario}/{ATTR::base-hydraulics-directory}/{ATTR::modelPrefix}/{ATTR::modelPrefix}.p{ATTR::plan}.hdf"
+                    "0": "{ATTR::scenario}/{ATTR::base-hydraulics-directory}/lewisville/lewisville.p01.hdf"
                 },
                 "store_name": "FFRD"
             }
@@ -30,9 +29,9 @@
     },
     "outputs": [
         {
-            "name": "{ATTR::modelPrefix}.p{ATTR::plan}.tmp.hdf",
+            "name": "lewisville.p01.tmp.hdf",
             "paths": {
-                "0": "{ATTR::scenario}/{ATTR::base-hydraulics-directory}/{ATTR::modelPrefix}/{ATTR::modelPrefix}.p{ATTR::plan}.hdf"
+                "0": "{ATTR::scenario}/{ATTR::base-hydraulics-directory}/lewisville/lewisville.p01.hdf"
             },
             "store_name": "FFRD"
         }
@@ -48,10 +47,10 @@
             "description": "removing results from hdf file",
             "type": "utils",
             "attributes": {
-                "local_dest": "{ATTR::modelPrefix}.p{ATTR::plan}.tmp.hdf",
-                "remote_dest": "{ATTR::modelPrefix}.p{ATTR::plan}.tmp.hdf",
+                "local_dest": "lewisville.p01.tmp.hdf",
+                "remote_dest": "lewisville.p01.tmp.hdf",
                 "save_to_remote": "true",
-                "src": "{ATTR::modelPrefix}.p{ATTR::plan}.hdf"
+                "src": "lewisville.p01.hdf"
             }
         }
     ]
