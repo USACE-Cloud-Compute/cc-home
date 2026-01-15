@@ -1,0 +1,24 @@
+{
+    "name": "Trinity Conformance Max Grid Compute",
+    "provider":{
+        "type":"awsbatch",
+        "execution-role": "ecsTaskExecutionRole",
+        "region": "us-gov-west-1",
+        "profile": "ffrd_compute",
+        "queue": "CC_QUEUE_ARM"
+    },
+    "plugins": ["aggregator-plugin-manifest.json"],
+    "event":{
+        "compute-manifests":["compute-manifest.json"]
+    },
+    "generator":{
+        "type":"array",
+        "start":1,
+        "end":1,
+        "perEventLoop":[
+            {"MODEL_PREFIX":"clear-creek"},
+            {"MODEL_PREFIX":"lewisville"},
+            {"MODEL_PREFIX":"ray-roberts"}
+        ]
+    }
+}

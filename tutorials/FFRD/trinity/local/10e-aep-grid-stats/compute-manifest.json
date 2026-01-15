@@ -1,0 +1,40 @@
+{
+    "manifest_name":     "trinity-conformance-max-grid",
+    "plugin_definition": "CC-AGGREGATOR-PLUGIN:9",
+    "stores": [
+        {
+            "name":      "FFRD",
+            "store_type": "S3",
+            "profile": "FFRD",
+            "params": {
+                "root": "/model-library/ffrd-trinity"
+            }
+        }
+    ],
+    "inputs": {
+        "payload_attributes":{
+            "gridType":"depth"
+        }
+    },
+    "actions": [
+       {
+            "name": "raster-algebra",
+            "type": "raster-algebra",
+            "description": "raster algebra",
+            "attributes":{
+                "grids": [
+                    "/vsis3/ffrd-computable/model-library/ffrd-trinity/conformance/simulations/summary-data/aep-grids/{ENV::MODEL_PREFIX}/aep_{ATTR::gridType}_realz_1.tif",
+                    "/vsis3/ffrd-computable/model-library/ffrd-trinity/production/simulations/summary-data/aep-grids/{ENV::MODEL_PREFIX}/aep_{ATTR::gridType}_realz_2.tif",
+                    "/vsis3/ffrd-computable/model-library/ffrd-trinity/production/simulations/summary-data/aep-grids/{ENV::MODEL_PREFIX}/aep_{ATTR::gridType}_realz_3.tif",
+                    "/vsis3/ffrd-computable/model-library/ffrd-trinity/production/simulations/summary-data/aep-grids/{ENV::MODEL_PREFIX}/aep_{ATTR::gridType}_realz_4.tif",
+                    "/vsis3/ffrd-computable/model-library/ffrd-trinity/production/simulations/summary-data/aep-grids/{ENV::MODEL_PREFIX}/aep_{ATTR::gridType}_realz_5.tif"
+                ],
+                "gridOut": "production/simulations/summary-data/aep-grids/{ENV::MODEL_PREFIX}/mean_aep_{ATTR::gridType}.tif",
+                "loadingConcurrency": 5,
+                "rasterAlgebraFunction":"mean",
+                "noDataComputeSubstitutionValue":0.0,
+                "copyLocal":true
+            }
+        }
+    ]
+}
