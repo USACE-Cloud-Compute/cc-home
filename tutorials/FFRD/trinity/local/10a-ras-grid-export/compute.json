@@ -1,0 +1,29 @@
+{
+    "name": "RAS Grid Export",
+    "provider":{
+        "type":"docker",
+        "concurrency": "1",
+        "queue": "docker-local"
+    },
+    "plugins": ["../common/ras-postprocessor-plugin-manifest.json"],
+    "event":{
+        "compute-manifests":["compute-manifest.json"]
+    },
+    "generator":{
+        "type": "stream",
+        "file": "runevents.csv",
+        "delimiter": "\n",
+        "perEventLoop":[
+            {"MODEL_PREFIX":"clear-creek", "TERRAIN_FILE":"clear-creek_terrain_3m.tif"},
+            {"MODEL_PREFIX":"ray-roberts", "TERRAIN_FILE":"ray-roberts_terrain_3m.tif"},
+            {"MODEL_PREFIX":"lewisville", "TERRAIN_FILE":"lewisville_terrain_3m.tif"}
+        ]
+    },
+    "secrets-manager":{
+        "type": "env",
+        "secrets":{
+            "secretsmanager:AWS_ACCESS_KEY_ID::":"AWS_ACCESS_KEY_ID",
+            "secretsmanager:AWS_SECRET_ACCESS_KEY::":"AWS_SECRET_ACCESS_KEY"
+        }
+    }
+}

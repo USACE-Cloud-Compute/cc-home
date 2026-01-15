@@ -1,0 +1,86 @@
+{
+	"manifest_name": "grid-generation",
+	"plugin_definition": "cc-ras-postprocess:8",
+	"job_timeout": 14400,
+	"stores": [
+		{
+			"name": "FFRD",
+			"store_type": "S3",
+			"profile": "FFRD",
+			"params": {
+				"root": "model-library/ffrd-trinity",
+				"retries": 100
+			}
+		}
+	],
+	"inputs": {
+		"payload_attributes": {		
+			"geom": "01",
+			"gridOutputDirectory": "grids/{ENV::MODEL_PREFIX}",
+			"outputRoot": "production/simulations-test/event-data",
+			"plan": "01",
+			"rasMapperFilePath": "production/hydraulics/{ENV::MODEL_PREFIX}/{ENV::MODEL_PREFIX}.rasmap",
+			"resultsName": "SST.h5",
+			"scenario": "production",
+			"storeTerrainPath": "terrain-mapping/{ENV::MODEL_PREFIX}",
+			"terrainFile": "{ENV::TERRAIN_FILE}"
+		},
+		"data_sources": [
+			{
+				"name": "common-model-files",
+				"paths": {
+					"prj": "{ATTR::scenario}/hydraulics/{ENV::MODEL_PREFIX}/{ENV::MODEL_PREFIX}.prj",
+					"rasmap": "{ATTR::rasMapperFilePath}",
+					"ic-file": "{ATTR::scenario}/hydraulics/{ENV::MODEL_PREFIX}/{ENV::MODEL_PREFIX}.ic.o{ATTR::plan}",
+					"b-file": "{ATTR::scenario}/hydraulics/{ENV::MODEL_PREFIX}/{ENV::MODEL_PREFIX}.b{ATTR::geom}",
+					"geom": "{ATTR::scenario}/hydraulics/{ENV::MODEL_PREFIX}/{ENV::MODEL_PREFIX}.g{ATTR::geom}.hdf",
+					"p-file": "{ATTR::scenario}/hydraulics/{ENV::MODEL_PREFIX}/{ENV::MODEL_PREFIX}.p{ATTR::plan}",
+					"x-file": "{ATTR::scenario}/hydraulics/{ENV::MODEL_PREFIX}/{ENV::MODEL_PREFIX}.x{ATTR::plan}"
+				},
+				"store_name": "FFRD"
+			},
+			{
+				"name": "results-file",
+				"paths": {
+					"default": "{ATTR::scenario}/simulations/event-data/{VAR::eventIdentifier}/hydraulics/{ENV::MODEL_PREFIX}/{ENV::MODEL_PREFIX}.p{ATTR::plan}.hdf"
+				},
+				"store_name": "FFRD"
+			}
+		]
+	},
+	"outputs": [
+		{
+			"name": "depth",
+			"paths": {
+				"default": "{ATTR::scenario}/simulations/event-data/{VAR::eventIdentifier}/{ATTR::gridOutputDirectory}/depth.tif"
+			},
+			"store_name": "FFRD"
+		},
+		{
+			"name": "velocity",
+			"paths": {
+				"default": "{ATTR::scenario}/simulations/event-data/{VAR::eventIdentifier}/{ATTR::gridOutputDirectory}/velocity.tif"
+			},
+			"store_name": "FFRD"
+		},
+		{
+			"name": "watersurface",
+			"paths": {
+				"default": "{ATTR::scenario}/simulations/event-data/{VAR::eventIdentifier}/{ATTR::gridOutputDirectory}/watersurface.tif"
+			},
+			"store_name": "FFRD"
+		}
+	],
+	"actions": [
+		{
+			"name": "export-grids",
+			"type": "export",
+			"description": "export velocity grid to model library",
+			"attributes": {
+				"gridCellSize": "9.81",
+				"maptypes": ["depth","velocity"],
+				"profile": "Max"
+			}
+		}
+	]
+}
