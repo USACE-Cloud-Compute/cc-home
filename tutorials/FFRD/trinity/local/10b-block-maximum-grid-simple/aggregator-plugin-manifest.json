@@ -1,0 +1,82 @@
+{
+    "name":"CC-AGGREGATOR-PLUGIN",
+    "image_and_tag":"ghcr.io/usace-cloud-compute/aggregator:v1.0.0",
+    "description":"Aggregation tools for depth and velocity grids",
+    "command":["/app/aggregator"],
+    "compute_environment":{
+        "vcpu":"2",
+        "memory":"14000"
+    },
+    "environment":[
+        {
+            "name":  "CC_AWS_DEFAULT_REGION",
+            "value": "us-east-1"
+        },
+        {
+            "name":  "CC_AWS_S3_BUCKET",
+            "value": "ccstore"
+        },
+        {
+            "name":  "CC_AWS_ENDPOINT",
+            "value": "http://host.docker.internal:9000"
+        },
+        {
+            "name":  "FFRD_AWS_DEFAULT_REGION",
+            "value": "us-east-1"
+        },
+        {
+            "name":  "FFRD_AWS_S3_BUCKET",
+            "value": "project-data"
+        },
+        {
+            "name":  "FFRD_AWS_ENDPOINT",
+            "value": "http://host.docker.internal:9000"
+        },
+        {
+            "name":  "AWS_REGION",
+            "value": "us-east-1"
+        },
+        {
+            "name":  "AWS_S3_BUCKET",
+            "value": "project-data"
+        },
+        {
+            "name":  "AWS_S3_ENDPOINT",
+            "value": "host.docker.internal:9000"
+        },
+        {
+            "name":  "AWS_HTTPS",
+            "value": "NO"
+        },
+        {
+            "name":  "AWS_VIRTUAL_HOSTING",
+            "value": "FALSE"
+        }
+    ],
+    "credentials":[
+        {
+            "name":  "CC_AWS_ACCESS_KEY_ID",
+            "value": "secretsmanager:AWS_ACCESS_KEY_ID::"
+        },
+        {
+            "name":  "CC_AWS_SECRET_ACCESS_KEY",
+            "value": "secretsmanager:AWS_SECRET_ACCESS_KEY::"
+        },
+        {
+            "name":  "FFRD_AWS_ACCESS_KEY_ID",
+            "value": "secretsmanager:AWS_ACCESS_KEY_ID::"
+        },
+        {
+            "name":  "FFRD_AWS_SECRET_ACCESS_KEY",
+            "value": "secretsmanager:AWS_SECRET_ACCESS_KEY::"
+        },
+        {
+            "name":  "AWS_ACCESS_KEY_ID",
+            "value": "secretsmanager:AWS_ACCESS_KEY_ID::"
+        },
+        {
+            "name":  "AWS_SECRET_ACCESS_KEY",
+            "value": "secretsmanager:AWS_SECRET_ACCESS_KEY::"
+        }
+    ]
+}

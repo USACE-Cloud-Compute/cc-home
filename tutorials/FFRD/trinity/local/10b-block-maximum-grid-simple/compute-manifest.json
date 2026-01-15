@@ -1,0 +1,33 @@
+{
+    "manifest_name":     "trinity-conformance-max-grid",
+    "plugin_definition": "CC-AGGREGATOR-PLUGIN",
+    "stores": [
+        {
+            "name":      "FFRD",
+            "store_type": "S3",
+            "profile": "FFRD",
+            "params": {
+                "root": "/model-library/ffrd-trinity"
+            }
+        }
+    ],
+    "actions": [
+       {
+            "name": "raster-algebra",
+            "type": "raster-algebra",
+            "description": "raster algebra",
+            "attributes":{
+                "grids": [
+                    "/vsis3/project-data/model-library/ffrd-trinity/conformance/simulations/event-data/1/grids/bardwell-creek/depth.tif",
+                    "/vsis3/project-data/model-library/ffrd-trinity/conformance/simulations/event-data/4/grids/bardwell-creek/depth.tif",
+                    "/vsis3/project-data/model-library/ffrd-trinity/conformance/simulations/event-data/8/grids/bardwell-creek/depth.tif"
+                ],
+                "gridOut": "conformance/simulations/summary-data/max-grids/max_realz_1_block_1_depth.tif",
+                "loadingConcurrency": 5,
+                "rasterAlgebraFunction":"max",
+                "noDataComputeSubstitutionValue":0.0,
+                "copyLocal":false
+            }
+        }
+    ]
+}
