@@ -1,0 +1,29 @@
+{
+    "name": "Trinity AEP Grid Compute",
+    "provider":{
+        "type":"docker",
+        "concurrency": "1",
+        "queue": "docker-local"
+    },
+    "plugins": ["aggregator-plugin-manifest.json"],
+    "event":{
+        "compute-manifests":["compute-manifest.json"]
+    },
+    "generator":{
+        "type":"array",
+        "start":1, 
+        "end":5,
+        "perEventLoop":[
+            {"MODEL_PREFIX":"clear-creek", "DEBUG_CELL":"15732,13773"},
+            {"MODEL_PREFIX":"lewisville", "DEBUG_CELL":"5831,11459"},
+            {"MODEL_PREFIX":"ray-roberts", "DEBUG_CELL":"14439,8626"}
+        ]
+    },
+    "secrets-manager":{
+        "type": "env",
+        "secrets":{
+            "secretsmanager:AWS_ACCESS_KEY_ID::":"AWS_ACCESS_KEY_ID",
+            "secretsmanager:AWS_SECRET_ACCESS_KEY::":"AWS_SECRET_ACCESS_KEY"
+        }
+    }
+}
