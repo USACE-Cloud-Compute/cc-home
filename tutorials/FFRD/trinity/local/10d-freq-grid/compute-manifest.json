@@ -1,0 +1,52 @@
+{
+    "manifest_name":     "trinity-freq-grid",
+    "plugin_definition": "CC-AGGREGATOR-PLUGIN",
+    "resource_requirements":[
+        {
+            "resource_type":  "VCPU",
+            "value": "8"
+        },
+        {
+            "resource_type":  "MEMORY",
+            "value": "14000"
+        }
+    ],
+    "stores": [
+        {
+            "name":      "FFRD",
+            "store_type": "S3",
+            "profile": "FFRD",
+            "params": {
+                "root": "/model-library/ffrd-trinity"
+            }
+        }
+    ],
+    "inputs": {
+		"payload_attributes": {		
+			"scenario": "production",
+            "gridType": "depth"
+		}
+    },
+    "actions":[
+        {   
+            "name":        "freq-grid",
+            "type":        "freq-grid",
+            "description": "freqgrid",
+            "attributes": {
+                "startBlock": 1,
+                "endBlock":2000,
+                "gdalVsisPrefix": "/vsis3/ffrd-computable/model-library/ffrd-trinity",
+                "baseValueGrid": "{ATTR::scenario}/simulations/summary-data/base-grids/{ENV::MODEL_PREFIX}/base-{ATTR::gridType}.tif",  
+                "gridPathTemplate":   "{ATTR::scenario}/simulations/summary-data/max-grids/{ENV::MODEL_PREFIX}/max_realz_{ENV::CC_EVENT_IDENTIFIER}_block_{VAR::block}_{ATTR::gridType}.tif",
+                "loadingConcurrency": 20,
+                "gridOutTemplate":    "{ATTR::scenario}/simulations/summary-data/aep-grids/{ENV::MODEL_PREFIX}/aep_{ATTR::gridType}_{VAR::freq}yr_realz_{ENV::CC_EVENT_IDENTIFIER}.tif",
+                "probabilities": [0.1, 0.05, 0.02, 0.01, 0.005, 0.002, 0.001, 0.0005],
+                "freqPlotType": 2,
+                "debugOutTemplate": "{ATTR::scenario}/simulations/summary-data/aep-grids/qc/{ENV::MODEL_PREFIX}/aep_{ATTR::gridType}_freq_realz_{ENV::CC_EVENT_IDENTIFIER}_debug_{VAR::debugCellX}_{VAR::debugCellY}.csv"
+            }
+        }
+    ]   
+}
+
+
+    
