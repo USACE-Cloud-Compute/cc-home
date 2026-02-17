@@ -1,6 +1,6 @@
 {
     "manifest_name": "compute-ras-lewisville",
-    "plugin_definition": "CC-RAS-PLUGIN:1",
+    "plugin_definition": "RAS-RUNNER",
     "stores": [
         {
             "name": "FFRD",

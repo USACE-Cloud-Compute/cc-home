@@ -1,5 +1,5 @@
 {
-    "manifest_name": "compute-ras-ray-roberts",
+    "manifest_name": "compute-ras-lewisville",
     "plugin_definition": "RAS-RUNNER",
     "stores": [
         {
@@ -12,22 +12,6 @@
         }
     ],
     "inputs": {
-        "payload_attributes": {
-            "base-hydraulics-directory": "hydraulics",
-            "base-hydrology-directory": "hydrology",
-            "base-reservoir-operations-directory": "reservoir-operations",
-            "base-system-response-directory": "system-response",
-            "geom": "01",
-            "hydrology-simulation": "SST",
-            "model-name": "trinity",
-            "modelPrefix": "ray-roberts",
-            "twoDSA": "ray-roberts",
-            "outputdir": "simulations",
-            "outputroot": "simulations/event-data",
-            "plan": "01",
-            "scenario": "conformance",
-            "watershed": "ffrd_trinity"
-        },
         "data_sources": [
             {
                 "name": "{ATTR::modelPrefix}.p{ATTR::plan}.tmp.hdf",
@@ -46,7 +30,33 @@
                 },
                 "store_name": "FFRD"
             }
-        ]
+        ],
+        "environment": [
+            {
+                "name": "HDF_AWS_S3_TEMPLATE",
+                "value": "http://host.docker.internal:9000/%s/%s/%s"
+            }
+        ],
+        "payload_attributes": {
+            "base-hydraulics-directory": "hydraulics",
+            "base-hydrology-directory": "hydrology",
+            "base-reservoir-operations-directory": "reservoir-operations",
+            "base-system-response-directory": "system-response",
+            "geom": "01",
+            "hydrology-simulation": "SST",
+            "model-name": "trinity",
+            "modelPrefix": "lewisville",
+            "twoDSA": "Lewisville",
+            "modelPrefix_1": "clear-creek",
+            "modelPrefix_2": "ray-roberts",
+            "outputdir": "simulations",
+            "outputroot": "simulations/event-data",
+            "plan": "01",
+            "plan_1": "01",
+            "plan_2": "01",
+            "scenario": "conformance",
+            "watershed": "ffrd_trinity"
+        }
     },
     "outputs": [
         {
@@ -92,18 +102,37 @@
         },
         {
             "attributes": {
-                "bFile": "ray-roberts.b01",
-                "fcFile": "failure_elevations.json",
-                "geoHdfFile": "ray-roberts.p01.tmp.hdf"
+                "refline": "clear-creek_to_lewisville|clear-creek"
             },
-            "description": "updating failure elevation triggers",
-            "inputs": [],
-            "name": "update-breach-bfile",
-            "outputs": [],
+            "description": "updating bclines based on upstream ras reflines",
+            "inputs": [
+                {
+                    "name": "source",
+                    "paths": {
+                        "hdf": "{ATTR::scenario}/{ATTR::outputdir}/event-data/{ENV::CC_EVENT_IDENTIFIER}/{ATTR::base-hydraulics-directory}/{ATTR::modelPrefix_1}/{ATTR::modelPrefix_1}.p{ATTR::plan_1}.hdf"
+                    },
+                    "data_paths": {
+                        "refline": "Results/Unsteady/Output/Output Blocks/DSS Hydrograph Output/Unsteady Time Series/Reference Lines"
+                    },
+                    "store_name": "FFRD"
+                }
+            ],
+            "name": "refline-to-boundary-condition",
+            "outputs": [
+                {
+                    "name": "destination",
+                    "paths": {
+                        "hdf": "{ATTR::modelPrefix}.p{ATTR::plan}.tmp.hdf"
+                    },
+                    "data_paths": {
+                        "bcline": "Event Conditions/Unsteady/Boundary Conditions/Flow Hydrographs/2D: Lewisville BCLine: clear-creek_to_lewisville"
+                    },
+                    "store_name": "FFRD"
+                }
+            ],
             "stores": [
                 {
                     "name": "FFRD",
-                    "id": "6ba7b810-9dad-11d1-80b4-00c04fd430c8",
                     "store_type": "S3",
                     "profile": "FFRD",
                     "params": {
@@ -115,10 +144,116 @@
         },
         {
             "attributes": {
-                "bFile": "ray-roberts.b01",
-                "hdfDataPath": "Event Conditions/Unsteady/Boundary Conditions/Flow Hydrographs/SA Conn: nid_tx08008 (Outlet TS: USGS08051135)",
-                "hdfFile": "ray-roberts.p01.tmp.hdf",
-                "outletTS": "SA Conn: nid_tx08008 (Outlet TS: USGS08051135)"
+                "refline": "ray-roberts_to_lewisville_1|ray-roberts"
+            },
+            "description": "updating bclines based on upstream ras reflines",
+            "inputs": [
+                {
+                    "name": "source",
+                    "paths": {
+                        "hdf": "{ATTR::scenario}/{ATTR::outputdir}/event-data/{ENV::CC_EVENT_IDENTIFIER}/{ATTR::base-hydraulics-directory}/{ATTR::modelPrefix_2}/{ATTR::modelPrefix_2}.p{ATTR::plan_2}.hdf"
+                    },
+                    "data_paths": {
+                        "refline": "Results/Unsteady/Output/Output Blocks/DSS Hydrograph Output/Unsteady Time Series/Reference Lines"
+                    },
+                    "store_name": "FFRD"
+                }
+            ],
+            "name": "refline-to-boundary-condition",
+            "outputs": [
+                {
+                    "name": "destination",
+                    "paths": {
+                        "hdf": "{ATTR::modelPrefix}.p{ATTR::plan}.tmp.hdf"
+                    },
+                    "data_paths": {
+                        "bcline": "Event Conditions/Unsteady/Boundary Conditions/Flow Hydrographs/2D: Lewisville BCLine: ray-roberts_to_lewisville_1"
+                    },
+                    "store_name": "FFRD"
+                }
+            ],
+            "stores": [
+                {
+                    "name": "FFRD",
+                    "store_type": "S3",
+                    "profile": "FFRD",
+                    "params": {
+                        "root": "model-library/ffrd-trinity"
+                    }
+                }
+            ],
+            "type": "link"
+        },
+        {
+            "attributes": {
+                "refline": "ray-roberts_to_lewisville_2|ray-roberts"
+            },
+            "description": "updating bclines based on upstream ras reflines",
+            "inputs": [
+                {
+                    "name": "source",
+                    "paths": {
+                        "hdf": "{ATTR::scenario}/{ATTR::outputdir}/event-data/{ENV::CC_EVENT_IDENTIFIER}/{ATTR::base-hydraulics-directory}/{ATTR::modelPrefix_2}/{ATTR::modelPrefix_2}.p{ATTR::plan_2}.hdf"
+                    },
+                    "data_paths": {
+                        "refline": "Results/Unsteady/Output/Output Blocks/DSS Hydrograph Output/Unsteady Time Series/Reference Lines"
+                    },
+                    "store_name": "FFRD"
+                }
+            ],
+            "name": "refline-to-boundary-condition",
+            "outputs": [
+                {
+                    "name": "destination",
+                    "paths": {
+                        "hdf": "{ATTR::modelPrefix}.p{ATTR::plan}.tmp.hdf"
+                    },
+                    "data_paths": {
+                        "bcline": "Event Conditions/Unsteady/Boundary Conditions/Flow Hydrographs/2D: Lewisville BCLine: ray-roberts_to_lewisville_2"
+                    },
+                    "store_name": "FFRD"
+                }
+            ],
+            "stores": [
+                {
+                    "name": "FFRD",
+                    "store_type": "S3",
+                    "profile": "FFRD",
+                    "params": {
+                        "root": "model-library/ffrd-trinity"
+                    }
+                }
+            ],
+            "type": "link"
+        },
+        {
+            "attributes": {
+                "bFile": "lewisville.b01",
+                "fcFile": "failure_elevations.json",
+                "geoHdfFile": "lewisville.p01.tmp.hdf"
+            },
+            "description": "updating failure elevation triggers",
+            "inputs": [],
+            "name": "update-breach-bfile",
+            "outputs": [],
+            "stores": [
+                {
+                    "name": "FFRD",
+                    "store_type": "S3",
+                    "profile": "FFRD",
+                    "params": {
+                        "root": "model-library/ffrd-trinity"
+                    }
+                }
+            ],
+            "type": "link"
+        },
+        {
+            "attributes": {
+                "bFile": "lewisville.b01",
+                "hdfDataPath": "Event Conditions/Unsteady/Boundary Conditions/Flow Hydrographs/SA Conn: nid_tx00008 (Outlet TS: LW Outlet #1)",
+                "hdfFile": "lewisville.p01.tmp.hdf",
+                "outletTS": "SA Conn: nid_tx00008 (Outlet TS: LW Outlet #1)"
             },
             "description": "updating ressim override flows into the b file where the ras exe reads it from",
             "inputs": [],
@@ -139,7 +274,7 @@
         {
             "attributes": {
                 "geom": "01",
-                "modelPrefix": "ray-roberts",
+                "modelPrefix": "lewisville",
                 "plan": "01"
             },
             "description": "compute unsteady simulation",
@@ -302,6 +437,5 @@
                 "outputDataSource": "event_summary"
             }
         }
-    ],
-    "depends-on": []
+    ]
 }

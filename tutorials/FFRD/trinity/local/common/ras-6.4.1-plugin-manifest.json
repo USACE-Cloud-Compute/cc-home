@@ -1,6 +1,6 @@
 {
     "name":"RAS-RUNNER",
-    "image_and_tag":"ghcr.io/usace-cloud-compute/ras-runner-6.4.1:v1.0.0",
+    "image_and_tag":"ghcr.io/usace-cloud-compute/ras-runner-6.4.1:v1.1.0",
     "description":"RAS Runner",
     "command": [
       "/ras/ras-runner"

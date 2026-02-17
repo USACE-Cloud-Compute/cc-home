@@ -1,6 +1,6 @@
 {
     "manifest_name": "compute-ras-clear-creek",
-    "plugin_definition": "CC-RAS-PLUGIN",
+    "plugin_definition": "RAS-RUNNER",
     "stores": [
         {
             "name": "FFRD",
@@ -29,12 +29,6 @@
                     "failure_elevations": "{ATTR::scenario}/{ATTR::outputdir}/event-data/{ENV::CC_EVENT_IDENTIFIER}/{ATTR::base-system-response-directory}/failure_elevations.json"
                 },
                 "store_name": "FFRD"
-            }
-        ],
-        "environment": [
-            {
-                "name": "HDF_AWS_S3_TEMPLATE",
-                "value": "https://%s.s3.us-gov-west-1.amazonaws.com/%s/%s"
             }
         ],
         "payload_attributes": {

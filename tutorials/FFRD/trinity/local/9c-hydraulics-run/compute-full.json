@@ -8,7 +8,9 @@
     "plugins": ["../common/ras-6.4.1-plugin-manifest.json"],
     "event":{
         "compute-manifests":[
-            "ras-runner-compute-manifest-lewisville-nodeps.json"
+            "ras-runner-compute-manifest-clear-creek.json",
+            "ras-runner-compute-manifest-ray-roberts.json",
+            "ras-runner-compute-manifest-lewisville.json"
         ]
     },    
     "generator":{
