@@ -1,0 +1,91 @@
+{
+  "manifest_name": "trinity-basin-gen",
+  "plugin_definition": "CC-BASIN-RECORD-GEN-PLUGIN",
+  "stores": [
+    {
+      "name": "FFRD",
+      "store_type": "S3",
+      "profile": "FFRD",
+      "params": {
+        "root": "/model-library"
+      }
+    }
+  ],
+  "inputs": {
+    "payload_attributes": {
+      "scenario": "conformance",
+      "ffrd_root": "ffrd-trinity",
+      "hydrology-dir": "hydrology/trinity",
+      "basin-gen-dir": "basin-generation",
+      "por_run_name": "por",
+      "por_file_name": "por.dss",
+      "base_control_spec_name": "SST",
+      "basin_models": [
+        "trinity_apr_may_1990",
+        "trinity_aug_sep_2017",
+        "trinity_dec_1991"
+      ],
+      "start_date": "2020-10-01T00:00:00.008Z",
+      "end_date": "2021-09-30T00:00:00.008Z",
+      "event_duration_hours": 72,
+      "lookback_duration_hours": 0,
+      "end_padding_hours": 768
+    },
+    "data_sources": [
+      {
+        "name": "ScenarioFile",
+        "paths": {
+          "por-dss": "ffrd-trinity/conformance/basin-generation/{ATTR::por_file_name}",
+          "basin": "ffrd-trinity/conformance/basin-generation/{ATTR::basin_models[]}.basin",
+          "control":"ffrd-trinity/conformance/hydrology/trinity/{ATTR::base_control_spec_name}.control"
+        },
+        "data_paths": null,
+        "store_name": "FFRD"
+      }
+    ]
+  },
+  "outputs": [
+    {
+      "name": "BasinModels",
+      "paths": {
+        "basinmodels": "ffrd-trinity/conformance/hydrology/trinity/data/basinmodels"
+      },
+      "data_paths": null,
+      "store_name": "FFRD"
+    },
+    {
+      "name": "ControlSpecs",
+      "paths": {
+        "controlspecs": "ffrd-trinity/conformance/hydrology/trinity/data/controlspecs"
+      },
+      "data_paths": null,
+      "store_name": "FFRD"
+    }
+  ],
+  "actions": [
+    {
+      "name": "copy-inputs",
+      "attributes": {},
+      "stores": null,
+      "inputs": null,
+      "outputs": null,
+      "description": "Copy our inputs from model library"
+    },
+    {
+      "name": "process-basin-files",
+      "attributes": {},
+      "stores": null,
+      "inputs": null,
+      "outputs": null,
+      "description": "Create files"
+    },
+    {
+      "name": "copy-outputs",
+      "attributes": {},
+      "stores": null,
+      "inputs": null,
+      "outputs": null,
+      "description": "Copy outputs to model library"
+    }
+  ]
+}
