@@ -2,7 +2,7 @@
 name: User Support Request
 about: Create a ticket requesting user support on cloud compute.
 title: "[USER-SUPPORT]InsertTextHere"
-labels: documentation
+labels: documentation, user-support
 assignees: HenryGeorgist
 type: Task
 
