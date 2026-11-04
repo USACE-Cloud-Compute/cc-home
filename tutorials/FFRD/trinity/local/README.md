@@ -23,6 +23,12 @@ Download the conformance data for the trinity project from this [base data packa
 
 Once the data is downloaded and extracted, it needs to be loaded into the "project-data" bucket on minio.
 
+You can use the web ui or the aws command line to transfer the data.  An example command line sytax for local minio or seaweedfs is included below:
+```bash
+> cd unzipdir
+> aws --endpoint-url http://localhost:9000 s3 cp ./ s3://project-data/model-library/ffrd-trinity/conformance --recursive --profile=seaweed
+```
+
 ## Running Computes.
 To start the first step change directory into `/tutorials/FFRD/trinity/local/1-blockfile-generation/`. The README.md has useful information on the compute-manifest.json in that directory and describes how to compute the job using cccli. 
 

@@ -1,0 +1,37 @@
+{
+    "manifest_name":     "trinity-conformance-max-grid",
+    "plugin_definition": "CC-AGGREGATOR-PLUGIN",
+    "stores": [
+        {
+            "name":      "FFRD",
+            "store_type": "S3",
+            "profile": "FFRD",
+            "params": {
+                "root": "/model-library/ffrd-trinity"
+            }
+        }
+    ],
+    "inputs": {
+        "payload_attributes":{
+            "scenario":"conformance",
+            "gridType":"velocity"
+        }
+    },
+    "actions": [
+       {
+            "name": "raster-algebra",
+            "type": "raster-algebra",
+            "description": "raster algebra",
+            "attributes":{
+                "grids": [
+                    "/vsis3/project-data/model-library/ffrd-trinity/{ATTR::scenario}/simulations/event-data/{ENV::BLOCK_EVENTS[]}/grids/{ENV::MODEL_PREFIX}/{ATTR::gridType}_deleteme.tif"
+                ],
+                "gridOut": "{ATTR::scenario}/simulations/summary-data/max-grids/{ENV::MODEL_PREFIX}/max_realz_1_block_{ENV::CC_EVENT_IDENTIFIER}_{ATTR::gridType}.tif",
+                "loadingConcurrency": 5,
+                "rasterAlgebraFunction":"max",
+                "noDataComputeSubstitutionValue":0.0,
+                "copyLocal":false
+            }
+        }
+    ]
+}

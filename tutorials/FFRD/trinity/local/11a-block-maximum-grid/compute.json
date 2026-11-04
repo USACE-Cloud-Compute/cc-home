@@ -1,0 +1,32 @@
+{
+    "name": "Trinity Max Grid Compute",
+    "provider":{
+        "type":"docker",
+        "concurrency": "1",
+        "queue": "docker-local"
+    },
+    "plugins": ["max-grid-plugin-manifest.json"],
+    "event":{
+        "compute-manifests":["max-grid-compute-manifest.json"]
+    },
+    "generator":{
+        "type":"array2",
+        "start":1,
+        "end":4,
+        "perEventLoop":[
+            {"MODEL_PREFIX":"bardwell-creek"},
+            {"MODEL_PREFIX":"chambers-creek"},
+            {"MODEL_PREFIX":"mill-creek"}
+        ],
+        "addEnv":{
+            "BLOCK_EVENTS":"blockevents.txt"
+        }
+    },
+    "secrets-manager":{
+        "type": "env",
+        "secrets":{
+            "secretsmanager:AWS_ACCESS_KEY_ID::":"AWS_ACCESS_KEY_ID",
+            "secretsmanager:AWS_SECRET_ACCESS_KEY::":"AWS_SECRET_ACCESS_KEY"
+        }
+    }
+}

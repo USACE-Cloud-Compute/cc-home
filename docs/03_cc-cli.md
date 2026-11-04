@@ -1,6 +1,6 @@
 # Cloud Compute CLI (Command Line Interface)
 
-Previously known as the `Manifestor`, the CC CLI is the primary tool used to interact with the Cloud Compute ecosystem at this time.
+The CC Command Line Interface is the primary tool used to interact with the Cloud Compute ecosystem at this time.
 
 ## Download CC CLI
 

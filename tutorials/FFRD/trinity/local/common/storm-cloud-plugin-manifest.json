@@ -4,7 +4,7 @@
     "description":"StormCloud runner",
     "command":["python3.12", "main.py"],
     "compute_environment":{
-        "vcpu":"8",
+        "vcpu":"4",
         "memory":"15000"
     },
     "environment":[
