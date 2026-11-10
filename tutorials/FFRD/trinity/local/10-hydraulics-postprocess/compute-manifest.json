@@ -1,6 +1,6 @@
 {
 	"manifest_name": "grid-generation",
-	"plugin_definition": "cc-ras-postprocess:8",
+	"plugin_definition": "cc-ras-postprocess",
 	"job_timeout": 14400,
 	"stores": [
 		{

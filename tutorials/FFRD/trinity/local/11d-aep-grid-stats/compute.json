@@ -7,9 +7,9 @@
         "profile": "ffrd_compute",
         "queue": "CC_QUEUE_ARM"
     },
-    "plugins": ["aggregator-plugin-manifest.json"],
+    "plugins": ["../common/aggregator-plugin-manifest.json"],
     "event":{
-        "compute-manifests":["aep-grid-stats-compute-manifest.json"]
+        "compute-manifests":["compute-manifest-depth.json"]
     },
     "generator":{
         "type":"array",
@@ -17,8 +17,7 @@
         "end":1,
         "perEventLoop":[
             {"MODEL_PREFIX":"clear-creek", "DEBUG_CELL":"15732,13773"},
-            {"MODEL_PREFIX":"lewisville", "DEBUG_CELL":"5831,11459"},
-            {"MODEL_PREFIX":"ray-roberts", "DEBUG_CELL":"14439,8626"}
+            {"MODEL_PREFIX":"lewisville", "DEBUG_CELL":"5831,11459"}
         ]
     }
 }

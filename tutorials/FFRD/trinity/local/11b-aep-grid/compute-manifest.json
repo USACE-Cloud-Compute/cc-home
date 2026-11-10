@@ -4,11 +4,11 @@
     "resource_requirements":[
         {
             "resource_type":  "VCPU",
-            "value": "8"
+            "value": "2"
         },
         {
             "resource_type":  "MEMORY",
-            "value": "28000"
+            "value": "14000"
         }
     ],
     "stores": [
@@ -23,8 +23,8 @@
     ],
     "inputs": {
 		"payload_attributes": {		
-			"scenario": "production",
-            "gridType": "depth"
+			"scenario": "conformance",
+            "gridType": "velocity"
 		}
     },
     "actions":[
@@ -35,8 +35,8 @@
             "attributes": {
                 "gridNumber":0,
                 "blockStart": 1,
-                "blockEnd":2000,
-                "gdalVsisPrefix": "/vsis3/ffrd-computable/model-library/ffrd-trinity",
+                "blockEnd":5,
+                "gdalVsisPrefix": "/vsis3/project-data/model-library/ffrd-trinity",
                 "baseValueGrid":"{ATTR::scenario}/simulations/summary-data/base-grids/{ENV::MODEL_PREFIX}/base-{ATTR::gridType}.tif",
                 "gridPathTemplate":   "{ATTR::scenario}/simulations/summary-data/max-grids/{ENV::MODEL_PREFIX}/max_realz_{ENV::CC_EVENT_IDENTIFIER}_block_{VAR::block}_{ATTR::gridType}.tif",
                 "processingConcurrency": 5,

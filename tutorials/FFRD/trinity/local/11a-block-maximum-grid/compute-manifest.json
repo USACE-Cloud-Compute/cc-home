@@ -24,13 +24,13 @@
             "description": "raster algebra",
             "attributes":{
                 "grids": [
-                    "/vsis3/project-data/model-library/ffrd-trinity/{ATTR::scenario}/simulations/event-data/{ENV::BLOCK_EVENTS[]}/grids/{ENV::MODEL_PREFIX}/{ATTR::gridType}_deleteme.tif"
+                    "/vsis3/project-data/model-library/ffrd-trinity/{ATTR::scenario}/simulations/event-data/{ENV::BLOCK_EVENTS[]}/grids/{ENV::MODEL_PREFIX}/{ATTR::gridType}.tif"
                 ],
                 "gridOut": "{ATTR::scenario}/simulations/summary-data/max-grids/{ENV::MODEL_PREFIX}/max_realz_1_block_{ENV::CC_EVENT_IDENTIFIER}_{ATTR::gridType}.tif",
                 "loadingConcurrency": 5,
                 "rasterAlgebraFunction":"max",
                 "noDataComputeSubstitutionValue":0.0,
-                "copyLocal":false
+                "copyLocal":true
             }
         }
     ]

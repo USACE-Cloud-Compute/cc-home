@@ -5,21 +5,20 @@
         "concurrency": "1",
         "queue": "docker-local"
     },
-    "plugins": ["max-grid-plugin-manifest.json"],
+    "plugins": ["../common/aggregator-plugin-manifest.json"],
     "event":{
-        "compute-manifests":["max-grid-compute-manifest.json"]
+        "compute-manifests":["compute-manifest.json"]
     },
     "generator":{
         "type":"array2",
         "start":1,
-        "end":4,
+        "end":5,
         "perEventLoop":[
-            {"MODEL_PREFIX":"bardwell-creek"},
-            {"MODEL_PREFIX":"chambers-creek"},
-            {"MODEL_PREFIX":"mill-creek"}
+            {"MODEL_PREFIX":"clear-creek"},
+            {"MODEL_PREFIX":"ray-roberts"}
         ],
         "addEnv":{
-            "BLOCK_EVENTS":"blockevents.txt"
+            "BLOCK_EVENTS":"block-ams-contributing-events.txt"
         }
     },
     "secrets-manager":{

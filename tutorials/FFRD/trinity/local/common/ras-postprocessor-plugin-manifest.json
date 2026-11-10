@@ -1,6 +1,6 @@
 {
     "name":"cc-ras-postprocess",
-    "image_and_tag":"030604683087.dkr.ecr.us-gov-west-1.amazonaws.com/compute-plugins:cc-ras-postprocess-0.3",
+    "image_and_tag":"ghcr.io/usace-cloud-compute/ras-postprocess:v1.0.3",
     "description":"RAS 7 Postprocessing Tools for Grid Generation",
     "command":["/ras/cc-ras-postprocess"],
     "compute_environment":{
@@ -9,38 +9,46 @@
     },
     "environment":[
         {
-            "name":  "CC_AWS_DEFAULT_REGION",
-            "value": "us-gov-west-1"
+            "name": "CC_AWS_DEFAULT_REGION",
+            "value": "us-east-1"
         },
         {
-            "name":  "CC_AWS_S3_BUCKET",
-            "value": "cloud-compute"
+            "name": "CC_AWS_S3_BUCKET",
+            "value": "ccstore"
         },
         {
-            "name":  "FFRD_AWS_DEFAULT_REGION",
-            "value": "us-gov-west-1"
+            "name": "CC_AWS_ENDPOINT",
+            "value": "http://host.docker.internal:9000"
         },
         {
-            "name":  "FFRD_AWS_S3_BUCKET",
-            "value": "ffrd-computable"
+            "name": "FFRD_AWS_DEFAULT_REGION",
+            "value": "us-east-1"
+        },
+        {
+            "name": "FFRD_AWS_S3_BUCKET",
+            "value": "project-data"
+        },
+        {
+            "name": "FFRD_AWS_ENDPOINT",
+            "value": "http://host.docker.internal:9000"
         }
     ],
     "credentials":[
         {
-            "name":  "CC_AWS_ACCESS_KEY_ID",
-            "value": "arn:aws-us-gov:secretsmanager:us-gov-west-1:030604683087:secret:prod/CloudCompute/S3-MCq3r9:AWS_ACCESS_KEY_ID::"
+            "name": "CC_AWS_ACCESS_KEY_ID",
+            "value": "secretsmanager:AWS_ACCESS_KEY_ID::"
         },
         {
-            "name":  "CC_AWS_SECRET_ACCESS_KEY",
-            "value": "arn:aws-us-gov:secretsmanager:us-gov-west-1:030604683087:secret:prod/CloudCompute/S3-MCq3r9:AWS_SECRET_ACCESS_KEY::"
+            "name": "CC_AWS_SECRET_ACCESS_KEY",
+            "value": "secretsmanager:AWS_SECRET_ACCESS_KEY::"
         },
         {
-            "name":  "FFRD_AWS_ACCESS_KEY_ID",
-            "value": "arn:aws-us-gov:secretsmanager:us-gov-west-1:030604683087:secret:prod/CloudCompute/S3-MCq3r9:AWS_ACCESS_KEY_ID::"
+            "name": "FFRD_AWS_ACCESS_KEY_ID",
+            "value": "secretsmanager:AWS_ACCESS_KEY_ID::"
         },
         {
-            "name":  "FFRD_AWS_SECRET_ACCESS_KEY",
-            "value": "arn:aws-us-gov:secretsmanager:us-gov-west-1:030604683087:secret:prod/CloudCompute/S3-MCq3r9:AWS_SECRET_ACCESS_KEY::"
+            "name": "FFRD_AWS_SECRET_ACCESS_KEY",
+            "value": "secretsmanager:AWS_SECRET_ACCESS_KEY::"
         }
     ],
     "execution_timeout":3600

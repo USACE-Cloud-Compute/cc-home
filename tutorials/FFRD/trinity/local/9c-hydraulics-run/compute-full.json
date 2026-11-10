@@ -15,7 +15,7 @@
     },    
     "generator":{
         "type": "stream",
-        "file": "../common/stream_list.csv",
+        "file": "../common/ams-contributing-events.csv",
         "delimiter": ","
     },
     "secrets-manager":{

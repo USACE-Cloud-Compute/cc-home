@@ -5,17 +5,16 @@
         "concurrency": "1",
         "queue": "docker-local"
     },
-    "plugins": ["aggregator-plugin-manifest.json"],
+    "plugins": ["../common/aggregator-plugin-manifest.json"],
     "event":{
         "compute-manifests":["compute-manifest.json"]
     },
     "generator":{
         "type":"array",
         "start":1,
-        "end":5,
+        "end":1,
         "perEventLoop":[
             {"MODEL_PREFIX":"clear-creek", "DEBUG_CELL":"15732,13773"},
-            {"MODEL_PREFIX":"lewisville", "DEBUG_CELL":"5831,11459"},
             {"MODEL_PREFIX":"ray-roberts", "DEBUG_CELL":"14439,8626"}
         ]
     },
