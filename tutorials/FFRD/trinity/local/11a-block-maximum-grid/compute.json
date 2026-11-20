@@ -1,0 +1,31 @@
+{
+    "name": "Trinity Max Grid Compute",
+    "provider":{
+        "type":"docker",
+        "concurrency": "1",
+        "queue": "docker-local"
+    },
+    "plugins": ["../common/aggregator-plugin-manifest.json"],
+    "event":{
+        "compute-manifests":["compute-manifest.json"]
+    },
+    "generator":{
+        "type":"array2",
+        "start":1,
+        "end":5,
+        "perEventLoop":[
+            {"MODEL_PREFIX":"clear-creek"},
+            {"MODEL_PREFIX":"ray-roberts"}
+        ],
+        "addEnv":{
+            "BLOCK_EVENTS":"block-ams-contributing-events.txt"
+        }
+    },
+    "secrets-manager":{
+        "type": "env",
+        "secrets":{
+            "secretsmanager:AWS_ACCESS_KEY_ID::":"AWS_ACCESS_KEY_ID",
+            "secretsmanager:AWS_SECRET_ACCESS_KEY::":"AWS_SECRET_ACCESS_KEY"
+        }
+    }
+}

@@ -7,8 +7,8 @@
       "/src/plugin.py"
     ],
     "compute_environment": {
-      "vcpu": "8",
-      "memory": "28000"
+      "vcpu": "4",
+      "memory": "15000"
     },
     "environment": [
       {

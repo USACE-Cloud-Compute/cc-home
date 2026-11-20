@@ -34,7 +34,7 @@
         "environment": [
             {
                 "name": "HDF_AWS_S3_TEMPLATE",
-                "value": "http://host.docker.internal:9000/%s/%s/%s"
+                "value": "http://localhost:9000/%s/%s/%s"
             }
         ],
         "payload_attributes": {
